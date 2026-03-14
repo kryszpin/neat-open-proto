@@ -5,30 +5,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="color-scheme" content="dark light">
-    <title>Absolute Basic Test</title>
+    <title>Neat Open Proto Mobile</title>
     <style>
-        /* Absolutnie najbardziej basic ustawienie tła z włączonym domyślnym glass-morphismem Apple */
         html {
             background-color: #150E13;
-            /* Baza kolorystyczna dla szkła, przydatna gdy obrazek się nie dociąga */
         }
 
         body {
             margin: 0;
             padding: 0;
-            background-image: url('img/wallpaper-new.jpg');
-            background-size: cover;
+            background-image: url('img/wallpaper-clean.jpg');
+            background-size: fixed;
             background-position: center top;
             background-repeat: no-repeat;
             color: white;
             font-family: -apple-system, sans-serif;
             text-align: center;
-            height: 115vh;
-            /* Wymuszenie lekko dłuższej przestrzeni na scroll wg instrukcji (1.5h ekranu) */
+            height: 100vh;
         }
 
         .content {
-            /* Dajemy margin/padding stricte dla tekstu, żeby nie wjeżdżał pod notcha */
             padding-top: calc(env(safe-area-inset-top) + 20px);
             font-size: 2rem;
             font-weight: bold;
