@@ -33,7 +33,7 @@
             background-position: center top;
             background-repeat: no-repeat;
             background-attachment: fixed;
-            height: 250vh; /* Extra height for scrolling demo */
+            height: 100vh; /* Disabled extra height for debugging transparency */
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             color: white;
             overflow-x: hidden;
@@ -55,10 +55,11 @@
             z-index: 1001;
         }
 
-        /* Part 2: Streams - Sticky (sticks to the top after Nav scrolls out) */
+        /* Streams - Static for now to debug transparency */
         .streams-section {
-            position: sticky;
-            top: env(safe-area-inset-top, 12px);
+            position: relative;
+            /* position: sticky; */
+            /* top: env(safe-area-inset-top, 12px); */
             display: flex;
             justify-content: center;
             width: 100%;
@@ -153,7 +154,7 @@
         <div class="brand-pill">
             <p>Brand design</p>
             <div class="arrow-ico">
-                <img src="img/arrow.svg" width="16" height="16" alt="Arrow" style="transform: rotate(90deg);">
+                <img src="img/arrow.svg" width="16" height="16" alt="Arrow">
             </div>
         </div>
         <div class="nav-btn">
