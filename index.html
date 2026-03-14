@@ -43,10 +43,6 @@
 
         html {
             font-size: 16px;
-            background-image: url('img/wallpaper.jpg');
-            background-size: cover;
-            background-position: center center;
-            background-repeat: no-repeat;
             background-color: #16141e;
         }
 
@@ -202,6 +198,18 @@
 
         .self-stretch {
             align-self: stretch;
+        }
+
+        /* === WALLPAPER === */
+        .wallpaper {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background-image: url('img/wallpaper.jpg');
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
         }
 
         /* === MAIN VIDEO AREA === */
@@ -794,13 +802,16 @@
                 style: {
                     minHeight: '200vh',
                     WebkitTouchCallout: 'none',
-                    WebkitUserSelect: 'none'
+                    WebkitUserSelect: 'none',
+                    position: 'relative',
+                    zIndex: 1
                 }
             },
                 // Spacer dla scrolla
                 h('div', { style: { height: '200vh', width: '1px', position: 'absolute', pointerEvents: 'none' } }),
 
-// MAIN VIDEO AREA
+                // WALLPAPER (fixed, behind everything)
+                h('div', { className: 'wallpaper', 'data-name': 'wallpaper' }),
                 h('div', {
                     className: `main-video-area ${uiClass}`,
                     'data-name': 'main-video-area'
