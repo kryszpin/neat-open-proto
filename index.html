@@ -51,7 +51,11 @@
         }
 
         body {
-            background-image: url('img/wallpaper-new.jpg');
+            background-color: #150E13;
+            background-image: 
+                linear-gradient(to bottom, #150E13 0%, transparent 15%),
+                linear-gradient(to top, #150E13 0%, transparent 15%),
+                url('img/wallpaper-new.jpg');
             background-size: cover;
             background-position: center top;
             background-repeat: no-repeat;
@@ -59,12 +63,23 @@
             
             margin: 0;
             padding: 0;
-            /* Usunięto padding-top/bottom stąd, żeby tło body zaczynało się od [0,0] */
             
             font-family: 'Golos Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             color: white;
             min-height: 115vh; /* Wymuszenie scrolla dla Safari Glass */
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior-y: none;
+        }
+
+        /* Ukrywanie scrollbara */
+        * {
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        *::-webkit-scrollbar {
+            display: none;
         }
 
         #root {
@@ -669,8 +684,8 @@
         }
 
         .nav-title-text p {
-            line-height: 22px;
-            overflow: hidden;
+            line-height: normal;
+            margin: 0;
         }
 
         /* === THUMBNAILS === */
@@ -807,6 +822,51 @@
                     zIndex: 1
                 }
             },
+                // NAV / TOP BAR
+                h('div', {
+                    className: `nav ${uiClass}`,
+                    'data-name': 'nav'
+                }, [
+                    h('div', { className: 'nav-inner', 'data-name': 'nav-inner' }, [
+                        // Left Icon Button
+                        h('div', { className: 'nav-btn ic-btn', 'data-name': 'nav-btn' }, [
+                            h('div', { className: 'ico-container size-full', 'data-name': 'icon' }, [
+                                h('svg', { viewBox: "0 0 20 20", fill: "none" }, [
+                                    h('path', { d: svgPaths.p114d5b00, fill: "white" })
+                                ])
+                            ]),
+                            h('div', { className: 'notification-dot', 'data-name': 'notification' }, [
+                                h('div', { className: 'notification-dot-inner' })
+                            ])
+                        ]),
+                        
+                        // Center Title
+                        h('div', { className: 'nav-title-container', 'data-name': 'nav-title' }, [
+                            h('div', { className: 'nav-title', 'data-name': 'nav-title' }, [
+                                h('div', { className: 'nav-title-inner', 'data-name': 'nav-title' }, [
+                                    h('div', { className: 'nav-title-text', 'data-name': 'text' }, [
+                                        h('p', null, 'Brand Design')
+                                    ]),
+                                    h('div', { className: 'ico-container', style: { width: '12px', height: '12px' }, 'data-name': 'icon' }, [
+                                        h('svg', { viewBox: "0 0 12 8", fill: "none" }, [
+                                            h('path', { d: svgPaths.p36030380, fill: "white", fillOpacity: 0.6 })
+                                        ])
+                                    ])
+                                ])
+                            ])
+                        ]),
+
+                        // Right Info Button
+                        h('div', { className: 'nav-btn ic-btn', 'data-name': 'nav-btn' }, [
+                            h('div', { className: 'ico-container size-full opacity-60', 'data-name': 'icon' }, [
+                                h('svg', { viewBox: "0 0 20 20", fill: "none" }, [
+                                    h('path', { d: svgPaths.p7e6e000, fill: "white" })
+                                ])
+                            ])
+                        ])
+                    ])
+                ]),
+
                 // MAIN VIDEO AREA
                 h('div', {
                     className: `main-video-area ${uiClass}`,
