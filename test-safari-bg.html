@@ -16,18 +16,15 @@
         }
 
         /* 
-           Metoda "TVN24 / Apple" na tapete krawedz-do-krawedzi: 
-           Uzywamy pseudo-elementu. Tlo nie rusza sie przy scrollowaniu 
-           i dosiega obszarow enviroment (top/bottom toolbars).
+           Metoda brute-force: twardy wymiar, position fixed
         */
-        html::before {
-            content: '';
+        .brute-force-bg {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100vw;
-            height: 100dvh; /* Dynamiczne dvh sięga od ramki do ramki, ignorując UI Safari */
-            z-index: -1;
+            width: 900px;
+            height: 900px;
+            z-index: 0;
             background-image: url('img/wallpaper.jpg');
             background-size: cover;
             background-position: center center;
@@ -82,11 +79,18 @@
             padding: 2rem;
             opacity: 0.5;
         }
+        .content-layer {
+            position: relative;
+            z-index: 1; /* Musi byc nad obrazkiem */
+        }
     </style>
 </head>
 <body>
 
-    <div class="header">
+    <div class="brute-force-bg"></div>
+
+    <div class="content-layer">
+        <div class="header">
         Safari Glass +<br>Wallpaper Test<br>
         <span style="font-size: 1rem; color: #ccc;">Zesccrolluj w dół by wysunąć paski</span>
     </div>
@@ -100,6 +104,8 @@
     <div class="footer">
         Koniec strony
     </div>
+    
+    </div> <!-- /content-layer -->
 
 </body>
 </html>
