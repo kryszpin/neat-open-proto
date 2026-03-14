@@ -23,7 +23,10 @@
         html::before {
             content: '';
             position: fixed;
-            inset: 0;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100dvh; /* Dynamiczne dvh sięga od ramki do ramki, ignorując UI Safari */
             z-index: -1;
             background-image: url('img/wallpaper.jpg');
             background-size: cover;
