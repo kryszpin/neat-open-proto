@@ -12,6 +12,7 @@
         }
 
         body {
+            /* Zerujemy wszystkie marginesy i paddingi, co zmusza Safari do startu z piksela [0,0] ekranu */
             margin: 0;
             padding: 0;
             background-image: url('img/wallpaper.jpg');
@@ -27,7 +28,9 @@
         }
 
         .content {
-            padding-top: 20vh;
+            /* Tu zamiast marginesu, dajemy margin/padding stricte dla tekstu, żeby nie wjeżdżał pod notcha,
+               ale TŁO na body pozostaje nietknięte na górze */
+            padding-top: calc(env(safe-area-inset-top) + 20px);
             font-size: 2rem;
             font-weight: bold;
             text-shadow: 0 4px 8px rgba(0,0,0,0.8);
