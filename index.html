@@ -7,8 +7,22 @@
     <meta name="color-scheme" content="dark light">
     <title>Neat Open Proto Mobile</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Hide scrollbars */
+        ::-webkit-scrollbar {
+            display: none;
+        }
+
         html {
             background-color: #0B0A0B;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
         }
 
         body {
@@ -18,24 +32,145 @@
             background-size: cover;
             background-position: center top;
             background-repeat: no-repeat;
-            height: 105vh;
+            background-attachment: fixed;
+            height: 250vh; /* Extra height for scrolling demo */
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: white;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        .content {
-            position: fixed;
-            top: 0;
-            left: 0;
+        /* Part 1: Nav - Scrolls away naturally */
+        .nav-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 44px;
             width: 100%;
-            height: 100vh;
-            font-family: -apple-system, sans-serif;
-            font-size: 2rem;
-            font-weight: bold;
+            padding: 0 12px;
+            margin-top: env(safe-area-inset-top, 12px);
+            margin-bottom: 12px;
+            z-index: 1001;
+        }
+
+        /* Part 2: Streams - Sticky (sticks to the top after Nav scrolls out) */
+        .streams-section {
+            position: sticky;
+            top: env(safe-area-inset-top, 12px);
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            padding: 0 12px 12px 12px;
+            z-index: 1000;
+        }
+
+        /* Figma Components */
+        .nav-btn {
+            width: 52px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            border: 0.5px solid rgba(255, 255, 255, 0.08);
+            border-radius: 21px;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.08);
+            position: relative;
+        }
+
+        .notification-dot {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 12px;
+            height: 12px;
+            background: #609DFF;
+            border-radius: 50%;
+        }
+
+        .brand-pill {
+            height: 36px;
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            padding: 0 10px 0 14px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            border: 0.5px solid rgba(255, 255, 255, 0.08);
+            border-radius: 17px;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.08);
+        }
+
+        .brand-pill p {
+            font-size: 13px;
+            font-weight: 700;
+            color: white;
+            opacity: 0.6;
+            margin: 0;
+        }
+
+        .arrow-ico {
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .thumbnails-container {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .thumbnail {
+            width: 56px;
+            height: 56px;
+            border-radius: 18px;
+            background-size: cover;
+            background-position: center;
+            flex-shrink: 0;
+            overflow: hidden;
+            background-color: rgba(255,255,255,0.1);
+        }
+
         }
     </style>
 </head>
 
 <body>
-    <div class="content">App</div>
+    <!-- Part 1: Nav - Elements that scroll out -->
+    <div class="nav-section">
+        <div class="nav-btn">
+            <img src="img/user.svg" width="24" height="24" alt="User">
+            <div class="notification-dot"></div>
+        </div>
+        <div class="brand-pill">
+            <p>Brand design</p>
+            <div class="arrow-ico">
+                <img src="img/arrow.svg" width="16" height="16" alt="Arrow" style="transform: rotate(90deg);">
+            </div>
+        </div>
+        <div class="nav-btn">
+            <img src="img/info.svg" width="24" height="24" alt="Info">
+        </div>
+    </div>
+
+    <!-- Part 2: Streams - Sticky Section -->
+    <div class="streams-section">
+        <div class="thumbnails-container">
+            <div class="thumbnail" style="background-image: url('img/avatar1.png')"></div>
+            <div class="thumbnail" style="background-image: url('img/avatar2.png')"></div>
+            <div class="thumbnail" style="background-image: url('img/avatar3.png')"></div>
+            <div class="thumbnail" style="background-image: url('img/avatar4.png')"></div>
+            <div class="thumbnail" style="background-image: url('img/avatar5.png')"></div>
+        </div>
+    </div>
 </body>
 
 </html>
