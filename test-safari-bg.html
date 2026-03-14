@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -8,21 +9,24 @@
     <style>
         /* Absolutnie najbardziej basic ustawienie tła z włączonym domyślnym glass-morphismem Apple */
         html {
-            background-color: #000; /* Baza kolorystyczna dla szkła, przydatna gdy obrazek się nie dociąga */
+            background-color: #000;
+            /* Baza kolorystyczna dla szkła, przydatna gdy obrazek się nie dociąga */
         }
 
         body {
             margin: 0;
             padding: 0;
+            margin-top: -80px;
             background-image: url('img/wallpaper.jpg');
             background-size: cover;
             background-position: center top;
             background-repeat: no-repeat;
-            
+
             color: white;
             font-family: -apple-system, sans-serif;
             text-align: center;
-            height: 150vh; /* Wymuszenie lekko dłuższej przestrzeni na scroll wg instrukcji (1.5h ekranu) */
+            height: 125vh;
+            /* Wymuszenie lekko dłuższej przestrzeni na scroll wg instrukcji (1.5h ekranu) */
         }
 
         .content {
@@ -30,15 +34,15 @@
             padding-top: calc(env(safe-area-inset-top) + 20px);
             font-size: 2rem;
             font-weight: bold;
-            text-shadow: 0 4px 8px rgba(0,0,0,0.8);
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
         }
     </style>
 </head>
+
 <body>
     <div class="content">
-        Back to basics.<br><br>
-        Tło ustawione natywnie na tagu <code>body</code>.<br><br>
-        👇 Przewiń w dół 👇
+        App
     </div>
 </body>
+
 </html>
