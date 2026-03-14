@@ -42,19 +42,8 @@
         App
     </div>
 
-    <!-- Skrypt wymuszenia delikatnego scrolla po załadowaniu ukrywający czerń z góry -->
-    <script>
-        // Opóźniamy lekko, by Safari zdążyło wyrenderować "safe area"
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                // Skrollujemy w dół o wysokość notcha/paska (~80-100px)
-                window.scrollTo({
-                    top: 100,
-                    behavior: 'smooth' 
-                });
-            }, 100);
-        });
-    </script>
 </body>
+
+</html>
 
 </html>
