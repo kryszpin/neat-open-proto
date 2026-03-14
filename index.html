@@ -46,17 +46,26 @@
             background-color: #16141e;
         }
 
+        html {
+            background-color: #150E13; /* Baza dla szkła Safari */
+        }
+
         body {
-            background: transparent;
+            background-image: url('img/wallpaper-new.jpg');
+            background-size: cover;
+            background-position: center top;
+            background-repeat: no-repeat;
+            
             margin: 0;
             padding: 0;
             padding-top: env(safe-area-inset-top);
             padding-bottom: env(safe-area-inset-bottom);
             padding-left: env(safe-area-inset-left);
             padding-right: env(safe-area-inset-right);
+            
             font-family: 'Golos Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             color: white;
-            min-height: 100vh;
+            min-height: 115vh; /* Kompromis wysokości dla pasków Safari */
         }
 
         #root {
@@ -198,21 +207,6 @@
 
         .self-stretch {
             align-self: stretch;
-        }
-
-        /* === WALLPAPER === */
-        .wallpaper {
-            width: 100vw;
-            height: 100vh; /* Fixed height dla wideo bg, by nie scrollowalo aplikacji glownej */
-            position: fixed; /* Pozwalamy zeby to stalo, ale musi miec height by scroll lapalo inne tlo ewentualnie */
-            top: 0;
-            left: 0;
-            z-index: 0;
-            background-image: url('img/wallpaper.jpg');
-            background-size: cover;
-            background-position: center top;
-            background-repeat: no-repeat;
-            pointer-events: none;
         }
 
         /* === MAIN VIDEO AREA === */
@@ -803,19 +797,13 @@
                 className: 'content-stretch flex flex-col items-center relative w-full',
                 'data-name': 'app',
                 style: {
-                    minHeight: '200vh',
+                    minHeight: '115vh',
                     WebkitTouchCallout: 'none',
                     WebkitUserSelect: 'none',
                     position: 'relative',
                     zIndex: 1
                 }
             },
-                // WALLPAPER (Flow Document - fixed fallback)
-                h('div', { className: 'wallpaper', 'data-name': 'wallpaper' }),
-
-                // Spacer dla scrolla żeby symulować content i odpalać paski
-                h('div', { style: { height: '200vh', width: '1px', position: 'absolute', pointerEvents: 'none' } }),
-
                 // MAIN VIDEO AREA
                 h('div', {
                     className: `main-video-area ${uiClass}`,
