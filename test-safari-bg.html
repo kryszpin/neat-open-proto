@@ -3,73 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="color-scheme" content="dark light">
-    <title>Safari Translucent + BG Test</title>
-    
+    <title>Absolute Basic Test</title>
     <style>
-        /* 
-           Klucz: background-color na html defniuje bazowy kolor, 
-           ktory Safari pobiera do kalkulacji efektu "frosted glass".
-           Ustawienie go na przezroczysty lub brak koloru moze zepsuc efekt.
-        */
+        /* Absolutnie najbardziej basic ustawienie tła z włączonym domyślnym glass-morphismem Apple */
         html {
-            background-color: #1a1a2e; /* Ciemny granat jako klasyczny ciemny motyw */
+            background-color: #1a1a2e; /* Baza kolorystyczna dla szkła, przydatna gdy obrazek się nie dociąga */
         }
 
         body {
             margin: 0;
             padding: 0;
-            /* margin/padding env(safe-area-inset-*) pozwala contentowi nie wchodzic pod fizyczne wyciecia (notch),
-               ale tło elementu *nadal* tam siega (dzieki viewport-fit=cover) */
-            padding-top: env(safe-area-inset-top);
-            padding-bottom: env(safe-area-inset-bottom);
-            padding-left: env(safe-area-inset-left);
-            padding-right: env(safe-area-inset-right);
-            
-            font-family: -apple-system, system-ui, sans-serif;
-            color: white;
-            min-height: 200vh; /* Wymuszamy scroll zeby przetestowac zachowanie paskow Safari podczas przewijania */
-        }
-
-        .header {
-            text-align: center;
-            padding: 2rem;
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-
-        .wallpaper-test {
-            width: 100vw;
-            height: 100vh;
             background-image: url('img/wallpaper.jpg');
             background-size: cover;
-            background-position: center center;
-            border-bottom: 5px solid red; /* Linia zeby wiedziec gdzie konczy sie obrazek */
+            background-position: center top;
+            background-repeat: no-repeat;
+            background-attachment: scroll; /* Brak fixowania = brak ingerencji w renderowanie Safari */
+            
+            color: white;
+            font-family: -apple-system, sans-serif;
+            text-align: center;
+            height: 200vh; /* Wymuszenie pustej przestrzeni na scroll */
         }
 
-        .footer {
-            margin-top: 50vh;
-            text-align: center;
-            padding: 2rem;
-            opacity: 0.5;
+        .content {
+            padding-top: 20vh;
+            font-size: 2rem;
+            font-weight: bold;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.8);
         }
     </style>
 </head>
 <body>
-
-    <div class="header">
-        Safari Glass Test<br>
-        <span style="font-size: 1rem; color: #888;">Powrót do bazy z test-safari.html</span>
+    <div class="content">
+        Back to basics.<br><br>
+        Tło ustawione natywnie na tagu <code>body</code>.<br><br>
+        👇 Przewiń w dół 👇
     </div>
-
-    <!-- Wrzucamy tapete w flow dokumentu zamiast fixed absolute -->
-    <div class="wallpaper-test"></div>
-
-    <div class="footer">
-        Koniec strony
-    </div>
-
 </body>
 </html>
