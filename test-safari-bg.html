@@ -16,12 +16,10 @@
         body {
             margin: 0;
             padding: 0;
-            margin-top: -200px;
             background-image: url('img/wallpaper.jpg');
             background-size: cover;
             background-position: center top;
             background-repeat: no-repeat;
-
             color: white;
             font-family: -apple-system, sans-serif;
             text-align: center;
@@ -43,6 +41,20 @@
     <div class="content">
         App
     </div>
+
+    <!-- Skrypt wymuszenia delikatnego scrolla po załadowaniu ukrywający czerń z góry -->
+    <script>
+        // Opóźniamy lekko, by Safari zdążyło wyrenderować "safe area"
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                // Skrollujemy w dół o wysokość notcha/paska (~80-100px)
+                window.scrollTo({
+                    top: 100,
+                    behavior: 'smooth' 
+                });
+            }, 100);
+        });
+    </script>
 </body>
 
 </html>
