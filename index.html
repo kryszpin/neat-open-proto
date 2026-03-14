@@ -7,7 +7,7 @@
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="theme-color" content="#1a0a2a" />
+    <meta name="theme-color" content="#0d0a10" />
     <title>Video Conference</title>
 
     <style>
@@ -55,7 +55,7 @@
             overscroll-behavior-y: none;
             font-family: 'Golos Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             color: white;
-            background: #1a0a2a;
+            background: #0d0a10;
         }
 
         #root {
@@ -210,38 +210,11 @@
             left: 0;
             right: 0;
             z-index: -1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
             pointer-events: none;
-        }
-
-        .wallpaper-inner {
-            position: relative;
-            width: 874px;
-            height: 874px;
-            flex-shrink: 0;
-            transform: scale(1.3);
-        }
-
-        .wallpaper-img-container {
-            position: absolute;
-            height: 874px;
-            left: -498px;
-            width: 1554px;
-            top: 50%;
-            transform: translateY(-50%);
-        }
-
-        .wallpaper-mask {
-            position: absolute;
-            inset: 0;
-            max-width: none;
-            object-fit: cover;
-            pointer-events: none;
-            width: 100%;
-            height: 100%;
+            background-image: url('img/wallpaper.jpg');
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
         }
 
         /* === MAIN VIDEO AREA === */
@@ -841,18 +814,7 @@
                 h('div', { style: { height: '200vh', width: '1px', position: 'absolute', pointerEvents: 'none' } }),
 
                 // WALLPAPER
-                h('div', { className: 'wallpaper', 'data-name': 'wallpaper' },
-                    h('div', { className: 'wallpaper-inner', 'data-name': 'wallpaper' },
-                        h('div', { className: 'wallpaper-img-container', 'data-name': 'img' },
-                            h('div', {
-                                className: 'wallpaper-mask',
-                                style: {
-                                    background: 'radial-gradient(circle at center, #4a3a5a 0%, #2a1a3a 50%, #1a0a2a 100%)'
-                                }
-                            })
-                        )
-                    )
-                ),
+                h('div', { className: 'wallpaper', 'data-name': 'wallpaper' }),
 
                 // MAIN VIDEO AREA
                 h('div', {
