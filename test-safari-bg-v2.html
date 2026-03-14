@@ -7,6 +7,13 @@
     <meta name="color-scheme" content="dark light">
     <title>Neat Open Proto Mobile</title>
     <style>
+        :root {
+            --safe-top: env(safe-area-inset-top, 0px);
+            --safe-bottom: env(safe-area-inset-bottom, 0px);
+            --safe-left: env(safe-area-inset-left, 0px);
+            --safe-right: env(safe-area-inset-right, 0px);
+        }
+
         html {
             background-color: #150E13;
         }
@@ -14,11 +21,27 @@
         body {
             margin: 0;
             padding: 0;
-            background-image: url('img/wallpaper-clean.jpg');
+            background-image: 
+                linear-gradient(to bottom, #150E13 0%, transparent 15%),
+                linear-gradient(to top, #150E13 0%, transparent 15%),
+                url('img/wallpaper-clean.jpg');
             background-size: cover;
             background-position: center top;
             background-repeat: no-repeat;
             height: 105vh;
+            color: white;
+            font-family: 'Golos Text', -apple-system, sans-serif;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior-y: none;
+        }
+
+        /* Ukrywanie scrollbara */
+        * {
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        *::-webkit-scrollbar {
+            display: none;
         }
 
         .content {
@@ -27,24 +50,166 @@
             left: 0;
             width: 100%;
             height: 100vh;
-            background-image:
-                linear-gradient(to bottom, #150E13 0%, transparent 15%),
-                linear-gradient(to top, #150E13 0%, transparent 15%);
+            pointer-events: none;
+        }
 
-            font-family: -apple-system, sans-serif;
-            font-size: 2rem;
-            font-weight: bold;
+        /* === NAV === */
+        .nav {
+            position: fixed;
             display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            left: 0;
+            right: 0;
+            top: 0;
+            padding-top: var(--safe-top);
+            padding-bottom: 12px;
+            padding-left: calc(var(--safe-left) + 12px);
+            padding-right: calc(var(--safe-right) + 12px);
+            pointer-events: auto;
+        }
+
+        .nav-inner {
+            display: flex;
+            flex-direction: row;
+            height: 44px;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            flex-shrink: 0;
+            width: 100%;
+        }
+
+        .nav-btn {
+            backdrop-filter: blur(40px);
+            background: rgba(255, 255, 255, 0.12);
+            display: flex;
+            flex-direction: column;
+            height: 44px;
             align-items: center;
             justify-content: center;
-            pointer-events: none;
-            /* Pozwalamy klikać przez gradienty */
+            position: relative;
+            border-radius: 21px;
+            flex-shrink: 0;
+            width: 52px;
+            border: 0.5px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.08);
         }
+
+        .notification-dot {
+            position: absolute;
+            right: 0;
+            width: 12px;
+            height: 12px;
+            top: 0;
+            background: #609dff;
+            border-radius: 50%;
+        }
+
+        .nav-title-container {
+            flex: 1 0 0;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+
+        .nav-title {
+            display: flex;
+            flex: 1 0 0;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-title-inner {
+            backdrop-filter: blur(40px);
+            background: rgba(255, 255, 255, 0.08);
+            display: flex;
+            flex-direction: row;
+            gap: 2px;
+            height: 36px;
+            align-items: center;
+            padding: 8px 10px 8px 14px;
+            border-radius: 17px;
+            border: 0.5px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.08);
+        }
+
+        .nav-title-text {
+            font-weight: 700;
+            font-size: 13px;
+            opacity: 0.6;
+            color: white;
+            white-space: nowrap;
+        }
+
+        .ico-container {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+        }
+        .opacity-60 { opacity: 0.6; }
     </style>
 </head>
 
 <body>
-    <div class="content">App</div>
+    <div id="root"></div>
+
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+
+    <script>
+        const { createElement: h } = React;
+
+        const svgPaths = {
+            p114d5b00: "M19.5 9.75C19.5 15.1348 15.1348 19.5 9.75 19.5C4.36522 19.5 0 15.1348 0 9.75C0 4.36522 4.36522 0 9.75 0C15.1348 0 19.5 4.36522 19.5 9.75ZM15 14.625C15 15.0008 14.8085 15.3461 14.5176 15.584C13.2189 16.6466 11.5589 17.2841 9.75 17.2841C7.94108 17.2841 6.28106 16.6466 4.98235 15.584C4.69154 15.3461 4.5 15.0008 4.5 14.625C4.5 12.761 6.01108 11.25 7.875 11.25H11.625C13.4889 11.25 15 12.761 15 14.625ZM9.75 9.75C11.4068 9.75 12.75 8.40685 12.75 6.75C12.75 5.09315 11.4068 3.75 9.75 3.75C8.09317 3.75 6.75 5.09315 6.75 6.75C6.75 8.40685 8.09317 9.75 9.75 9.75Z",
+            p36030380: "M0.380676 4.90045L4.64667 0.543823C5.00519 0.181274 5.39795 0 5.82495 0C6.05054 0.00402832 6.25598 0.050354 6.44128 0.138977C6.62659 0.223572 6.8139 0.358521 7.00323 0.543823L11.2571 4.90045C11.515 5.15424 11.6439 5.46844 11.6439 5.84308C11.6439 6.09686 11.5814 6.32849 11.4565 6.53796C11.3317 6.74744 11.1645 6.91663 10.955 7.04553C10.7496 7.17041 10.522 7.23285 10.2722 7.23285C9.8855 7.23285 9.5451 7.07977 9.25104 6.77362L5.66785 3.02728H6.00623L2.39886 6.77362C2.09674 7.07977 1.75433 7.23285 1.37164 7.23285C1.12189 7.23285 0.892273 7.17041 0.6828 7.04553C0.477356 6.91663 0.312195 6.74744 0.187317 6.53796C0.062439 6.32849 0 6.09686 0 5.84308C0 5.65778 0.0302124 5.48859 0.0906372 5.33551C0.15509 5.17841 0.25177 5.03339 0.380676 4.90045Z",
+            p7e6e000: "M9.75 0C4.36627 0 0 4.36627 0 9.75C0 15.1337 4.36627 19.5 9.75 19.5C15.1337 19.5 19.5 15.1337 19.5 9.75C19.5 4.36627 15.1337 0 9.75 0ZM11.1177 14.5979C11.1177 15.3537 10.505 15.9656 9.75 15.9656C8.9942 15.9656 8.38229 15.3529 8.38229 14.5979V9.51557C8.38229 8.75977 8.99505 8.14786 9.75 8.14786C10.1275 8.14786 10.4694 8.3002 10.7191 8.54988C10.9662 8.79701 11.1186 9.13809 11.1186 9.51557L11.1177 14.5979ZM9.75 6.27055C8.9942 6.27055 8.38229 5.6578 8.38229 4.90284C8.38229 4.14704 8.99505 3.53513 9.75 3.53513C10.5058 3.53513 11.1177 4.14789 11.1177 4.90284C11.1177 5.6578 10.5058 6.27055 9.75 6.27055Z"
+        };
+
+        function App() {
+            return h('div', { className: 'content' }, [
+                h('div', { className: 'nav' }, [
+                    h('div', { className: 'nav-inner' }, [
+                        // Left
+                        h('div', { className: 'nav-btn' }, [
+                            h('div', { className: 'ico-container' }, [
+                                h('svg', { viewBox: "0 0 20 20", fill: "none" }, [
+                                    h('path', { d: svgPaths.p114d5b00, fill: "white" })
+                                ])
+                            ]),
+                            h('div', { className: 'notification-dot' })
+                        ]),
+                        // Center
+                        h('div', { className: 'nav-title-container' }, [
+                            h('div', { className: 'nav-title' }, [
+                                h('div', { className: 'nav-title-inner' }, [
+                                    h('div', { className: 'nav-title-text' }, 'Brand Design'),
+                                    h('div', { className: 'ico-container', style: { width: '12px', height: '12px' } }, [
+                                        h('svg', { viewBox: "0 0 12 8", fill: "none" }, [
+                                            h('path', { d: svgPaths.p36030380, fill: "white", fillOpacity: 0.6 })
+                                        ])
+                                    ])
+                                ])
+                            ])
+                        ]),
+                        // Right
+                        h('div', { className: 'nav-btn' }, [
+                            h('div', { className: 'ico-container opacity-60' }, [
+                                h('svg', { viewBox: "0 0 20 20", fill: "none" }, [
+                                    h('path', { d: svgPaths.p7e6e000, fill: "white" })
+                                ])
+                            ])
+                        ])
+                    ])
+                ])
+            ]);
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(h(App));
+    </script>
 </body>
 
 </html>
