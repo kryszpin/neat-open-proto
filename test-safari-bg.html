@@ -12,19 +12,27 @@
         }
 
         body {
-            /* Wymuszamy podciągnięcie całego body (i jego tła) "pod" obszar kamery/notcha */
             margin: 0;
             padding: 0;
-            background-image: url('img/wallpaper.jpg');
-            background-size: cover;
-            background-position: center top;
-            background-repeat: no-repeat;
-            background-attachment: fixed; /* Test czy obrazek stoi w miejscu bez zepsucia szkła */
-            
             color: white;
             font-family: -apple-system, sans-serif;
             text-align: center;
             height: 200vh; /* Wymuszenie pustej przestrzeni na scroll */
+        }
+
+        /* Ten div zastępuje background-attachment: fixed, które Safari ignoruje na mobile */
+        .fixed-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1;
+            background-image: url('img/wallpaper.jpg');
+            background-size: cover;
+            background-position: center top;
+            background-repeat: no-repeat;
+            pointer-events: none;
         }
 
         .content {
@@ -37,6 +45,8 @@
     </style>
 </head>
 <body>
+    <div class="fixed-bg"></div>
+
     <div class="content">
         Back to basics.<br><br>
         Tło ustawione natywnie na tagu <code>body</code>.<br><br>
