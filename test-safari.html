@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="color-scheme" content="dark light">
+    <title>Safari Translucent Test</title>
+    
+    <style>
+        /* 
+           Klucz: background-color na html defniuje bazowy kolor, 
+           ktory Safari pobiera do kalkulacji efektu "frosted glass".
+           Ustawienie go na przezroczysty lub brak koloru moze zepsuc efekt.
+        */
+        html {
+            background-color: #1a1a2e; /* Ciemny granat jako klasyczny ciemny motyw */
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            /* margin/padding env(safe-area-inset-*) pozwala contentowi nie wchodzic pod fizyczne wyciecia (notch),
+               ale tło elementu *nadal* tam siega (dzieki viewport-fit=cover) */
+            padding-top: env(safe-area-inset-top);
+            padding-bottom: env(safe-area-inset-bottom);
+            padding-left: env(safe-area-inset-left);
+            padding-right: env(safe-area-inset-right);
+            
+            font-family: -apple-system, system-ui, sans-serif;
+            color: white;
+            min-height: 200vh; /* Wymuszamy scroll zeby przetestowac zachowanie paskow Safari podczas przewijania */
+        }
+
+        .header {
+            text-align: center;
+            padding: 2rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .box-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .box {
+            height: 200px;
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 800;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .box-1 { background: linear-gradient(135deg, #ff007a, #7a00ff); }
+        .box-2 { background: linear-gradient(135deg, #00ff7a, #007aff); }
+        .box-3 { background: linear-gradient(135deg, #ffaa00, #ff007a); }
+        .box-4 { background: linear-gradient(135deg, #00f0ff, #0000ff); }
+
+        .footer {
+            margin-top: 50vh;
+            text-align: center;
+            padding: 2rem;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        Safari Glass Test<br>
+        <span style="font-size: 1rem; color: #888;">Scroll down to test toolbars</span>
+    </div>
+
+    <div class="box-container">
+        <div class="box box-1">1</div>
+        <div class="box box-2">2</div>
+        <div class="box box-3">3</div>
+        <div class="box box-4">4</div>
+    </div>
+
+    <div class="footer">
+        Koniec strony
+    </div>
+
+</body>
+</html>
