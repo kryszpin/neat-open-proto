@@ -8,13 +8,12 @@
     <style>
         /* Absolutnie najbardziej basic ustawienie tła z włączonym domyślnym glass-morphismem Apple */
         html {
-            background-color: #1a1a2e; /* Baza kolorystyczna dla szkła, przydatna gdy obrazek się nie dociąga */
+            background-color: #000; /* Baza kolorystyczna dla szkła, przydatna gdy obrazek się nie dociąga */
         }
 
         body {
             /* Wymuszamy podciągnięcie całego body (i jego tła) "pod" obszar kamery/notcha */
             margin: 0;
-            margin-top: -80px;
             padding: 0;
             background-image: url('img/wallpaper.jpg');
             background-size: cover;
@@ -29,9 +28,8 @@
         }
 
         .content {
-            /* Rekompensujemy -80px z body, by content nie wjechał w kosmos, 
-               ale tło zostaje przesunięte wyżej */
-            padding-top: calc(env(safe-area-inset-top) + 100px);
+            /* Dajemy margin/padding stricte dla tekstu, żeby nie wjeżdżał pod notcha */
+            padding-top: calc(env(safe-area-inset-top) + 20px);
             font-size: 2rem;
             font-weight: bold;
             text-shadow: 0 4px 8px rgba(0,0,0,0.8);
