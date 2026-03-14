@@ -14,10 +14,7 @@
         body {
             margin: 0;
             padding: 0;
-            background-image: 
-                linear-gradient(to bottom, #150E13, transparent 15%),
-                linear-gradient(to top, #150E13, transparent 15%),
-                url('img/wallpaper-clean.jpg');
+            background-image: url('img/wallpaper-clean.jpg');
             background-size: cover;
             background-position: center top;
             background-repeat: no-repeat;
@@ -25,9 +22,22 @@
         }
 
         .content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(to bottom, #150E13 0%, transparent 15%),
+                linear-gradient(to top, #150E13 0%, transparent 15%);
+            
             font-family: -apple-system, sans-serif;
             font-size: 2rem;
             font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none; /* Pozwalamy klikać przez gradienty */
         }
     </style>
 </head>
