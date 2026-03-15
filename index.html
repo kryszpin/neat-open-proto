@@ -33,7 +33,8 @@
             background-position: center top;
             background-repeat: no-repeat;
             background-attachment: fixed;
-            height: 100vh; /* Disabled extra height for debugging transparency */
+            min-height: 100dvh; /* Use dynamic viewport height */
+            padding-bottom: 120px; /* Space for fixed bottom controls */
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             color: white;
             overflow-x: hidden;
@@ -227,6 +228,11 @@
             <div class="thumbnail" style="background-image: url('img/avatar4.png')"></div>
             <div class="thumbnail" style="background-image: url('img/avatar5.png')"></div>
         </div>
+    </div>
+
+    <!-- Part 2.5: Main Video Area (Placeholder to enable scroll) -->
+    <div style="width: calc(100% - 24px); height: 800px; background: rgba(255,255,255,0.05); margin: 20px 12px; border-radius: 24px; border: 1px dashed rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.2);">
+        Main Video Area Placeholder
     </div>
 
     <!-- Part 3: Bottom Controls Area -->
