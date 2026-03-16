@@ -141,6 +141,62 @@
             background-color: rgba(255, 255, 255, 0.1);
         }
 
+        /* Bottom Controls */
+        .controls-area {
+            position: fixed;
+            bottom: calc(20px + env(safe-area-inset-bottom, 20px));
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1002;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            width: max-content;
+        }
+
+        .controls-pill {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            border: 0.5px solid rgba(255, 255, 255, 0.08);
+            border-radius: 28px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0px 20px 32px rgba(0, 0, 0, 0.16);
+        }
+
+        .message-pill {
+            width: 140px;
+            height: 56px;
+            justify-content: center;
+            padding: 12px 24px;
+        }
+
+        .message-pill p {
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.68);
+            font-weight: 400;
+        }
+
+        .basic-controls {
+            padding: 8px;
+            gap: 4px;
+        }
+
+        .control-btn {
+            width: 60px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 19px;
+        }
+
+        .arrow-btn {
+            border-left: 1px solid rgba(255, 255, 255, 0.12);
+            width: 54px;
+            padding-left: 10px;
+            border-radius: 0 19px 19px 0;
         }
     </style>
 </head>
@@ -171,6 +227,24 @@
             <div class="thumbnail" style="background-image: url('img/avatar3.png')"></div>
             <div class="thumbnail" style="background-image: url('img/avatar4.png')"></div>
             <div class="thumbnail" style="background-image: url('img/avatar5.png')"></div>
+        </div>
+    </div>
+
+    <!-- Part 3: Bottom Controls Area -->
+    <div class="controls-area">
+        <div class="controls-pill message-pill">
+            <p>Message...</p>
+        </div>
+        <div class="controls-pill basic-controls">
+            <div class="control-btn">
+                <img src="img/ai-notes.svg" width="28" height="28" alt="AI Notes">
+            </div>
+            <div class="control-btn">
+                <img src="img/end-call.svg" width="28" height="28" alt="End Call">
+            </div>
+            <div class="control-btn arrow-btn">
+                <img src="img/small-arrow.svg" width="18" height="18" alt="Toggle">
+            </div>
         </div>
     </div>
 </body>
