@@ -33,10 +33,8 @@
             background-position: center top;
             background-repeat: no-repeat;
             background-attachment: fixed;
-            min-height: 100dvh;
-            /* Use dynamic viewport height */
-            padding-bottom: 120px;
-            /* Space for fixed bottom controls */
+            height: 100vh;
+            /* Disabled extra height for debugging transparency */
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             color: white;
             overflow-x: hidden;
@@ -143,61 +141,6 @@
             background-color: rgba(255, 255, 255, 0.1);
         }
 
-        /* Bottom Controls */
-        .controls-area {
-            position: fixed;
-            bottom: env(safe-area-inset-bottom, 0px);
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 1002;
-            display: flex;
-            gap: 8px;
-            align-items: center;
-        }
-
-        .controls-pill {
-            background: rgba(255, 255, 255, 0.12);
-            backdrop-filter: blur(40px);
-            -webkit-backdrop-filter: blur(40px);
-            border: 0.5px solid rgba(255, 255, 255, 0.08);
-            border-radius: 28px;
-            display: flex;
-            align-items: center;
-            box-shadow: 0px 20px 32px rgba(0, 0, 0, 0.16);
-        }
-
-        .message-pill {
-            width: 140px;
-            height: 56px;
-            justify-content: center;
-            padding: 12px 24px;
-        }
-
-        .message-pill p {
-            font-size: 15px;
-            color: rgba(255, 255, 255, 0.68);
-            font-weight: 400;
-        }
-
-        .basic-controls {
-            padding: 8px;
-            gap: 4px;
-        }
-
-        .control-btn {
-            width: 60px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 19px;
-        }
-
-        .arrow-btn {
-            border-left: 1px solid rgba(255, 255, 255, 0.12);
-            width: 54px;
-            padding-left: 10px;
-            border-radius: 0 19px 19px 0;
         }
     </style>
 </head>
@@ -228,30 +171,6 @@
             <div class="thumbnail" style="background-image: url('img/avatar3.png')"></div>
             <div class="thumbnail" style="background-image: url('img/avatar4.png')"></div>
             <div class="thumbnail" style="background-image: url('img/avatar5.png')"></div>
-        </div>
-    </div>
-
-    <!-- Part 2.5: Main Video Area (Placeholder to enable scroll) -->
-    <div
-        style="width: calc(100% - 24px); height: 800px; background: rgba(255,255,255,0.05); margin: 20px 12px; border-radius: 24px; border: 1px dashed rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.2);">
-        Main Video Area Placeholder
-    </div>
-
-    <!-- Part 3: Bottom Controls Area -->
-    <div class="controls-area">
-        <div class="controls-pill message-pill">
-            <p>Message...</p>
-        </div>
-        <div class="controls-pill basic-controls">
-            <div class="control-btn">
-                <img src="img/ai-notes.svg" width="28" height="28" alt="AI Notes">
-            </div>
-            <div class="control-btn">
-                <img src="img/end-call.svg" width="28" height="28" alt="End Call">
-            </div>
-            <div class="control-btn arrow-btn">
-                <img src="img/small-arrow.svg" width="18" height="18" alt="Toggle">
-            </div>
         </div>
     </div>
 </body>
