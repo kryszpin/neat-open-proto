@@ -69,7 +69,13 @@
         const totalBars = refH ? (refH - h) : 0;
         const mode = detectMode(totalBars, safe);
         const minBars = safe.top + safe.bottom;
-        const pixelsGained = refH ? (h - (refH - MODES.BOTTOM)) : 0; // Relative to 'Bottom' mode (default)
+        const gain = Math.max(0, totalBars - minBars);
+
+        // Apply dynamic height to document body to ensure exactly enough scroll 
+        // to hide bars without unnecessary over-scroll.
+        const optimalHeight = h + gain + 1; 
+        document.body.style.minHeight = optimalHeight + 'px';
+        document.documentElement.style.setProperty('--safari-gain', gain + 'px');
 
         info.innerHTML = `
             <b style="color: #fff; border-bottom: 1px solid #444; display: block; margin-bottom: 5px; padding-bottom: 3px;">SAFARI DYNAMICS</b>
@@ -79,7 +85,7 @@
             <hr style="border: 0; border-top: 1px solid #333; margin: 5px 0;">
             Window: ${w} x ${h}<br>
             Safe Area: T:${safe.top} B:${safe.bottom}<br>
-            Pixels Gained: +${pixelsGained > 0 ? pixelsGained : 0}px<br>
+            Pixels Gained: +${gain}px<br>
             ${vv ? `Visual: ${vv.width.toFixed(0)} x ${vv.height.toFixed(0)}<br>Offset: ${vv.offsetLeft.toFixed(0)}, ${vv.offsetTop.toFixed(0)}` : 'Visual: N/A'}
         `;
     }

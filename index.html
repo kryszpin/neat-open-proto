@@ -33,13 +33,14 @@
             background-position: center top;
             background-repeat: no-repeat;
             background-attachment: fixed;
-            height: 110vh;
+            /* Height is managed dynamically by mobile-safari.js */
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             color: white;
             overflow-x: hidden;
             display: flex;
             flex-direction: column;
             align-items: center;
+            transition: min-height 0.2s ease;
         }
 
         /* Part 1: Nav - Scrolls away naturally */
