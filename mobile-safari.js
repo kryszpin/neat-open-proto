@@ -32,11 +32,15 @@
         return { top, bottom };
     }
 
-    function detectMode(totalBars) {
+    function detectMode(totalBars, safe) {
+        // When scrolled, total bars should be close to the combined safe area (T+B)
+        const minBars = safe.top + safe.bottom;
+        if (Math.abs(totalBars - minBars) < 10) return "HIDDEN / SCROLLED";
+        
         if (Math.abs(totalBars - MODES.COMPACT) < 5) return "COMPACT";
         if (Math.abs(totalBars - MODES.BOTTOM) < 5) return "BOTTOM";
         if (Math.abs(totalBars - MODES.TOP) < 5) return "TOP";
-        return "UNKNOWN / SCROLLED";
+        return "TRANSITIONING...";
     }
 
     function updateDebug() {
@@ -63,17 +67,20 @@
         }
 
         const totalBars = refH ? (refH - h) : 0;
-        const mode = detectMode(totalBars);
+        const mode = detectMode(totalBars, safe);
+        const minBars = safe.top + safe.bottom;
+        const pixelsGained = refH ? (h - (refH - MODES.BOTTOM)) : 0; // Relative to 'Bottom' mode (default)
 
         info.innerHTML = `
-            <b style="color: #fff; border-bottom: 1px solid #444; display: block; margin-bottom: 5px; padding-bottom: 3px;">SAFARI DEBUG</b>
-            Mode: <span style="color: #609DFF">${mode}</span><br>
-            Total Bar H: ${totalBars}px<br>
+            <b style="color: #fff; border-bottom: 1px solid #444; display: block; margin-bottom: 5px; padding-bottom: 3px;">SAFARI DYNAMICS</b>
+            State: <span style="color: #609DFF">${mode}</span><br>
+            Current Bars: ${totalBars}px<br>
+            Hidden Bars: ${minBars}px<br>
             <hr style="border: 0; border-top: 1px solid #333; margin: 5px 0;">
             Window: ${w} x ${h}<br>
             Safe Area: T:${safe.top} B:${safe.bottom}<br>
-            ${vv ? `Visual: ${vv.width.toFixed(0)} x ${vv.height.toFixed(0)}<br>Offset: ${vv.offsetLeft.toFixed(0)}, ${vv.offsetTop.toFixed(0)}` : 'Visual: N/A'}<br>
-            DPR: ${window.devicePixelRatio}
+            Pixels Gained: +${pixelsGained > 0 ? pixelsGained : 0}px<br>
+            ${vv ? `Visual: ${vv.width.toFixed(0)} x ${vv.height.toFixed(0)}<br>Offset: ${vv.offsetLeft.toFixed(0)}, ${vv.offsetTop.toFixed(0)}` : 'Visual: N/A'}
         `;
     }
 
