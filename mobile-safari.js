@@ -32,30 +32,26 @@
         return { top, bottom };
     }
 
+    let isCalculated = false;
+    let lastWidth = 0;
+
     function detectMode(totalBars, safe) {
-        // When scrolled, total bars should be close to the combined safe area (T+B)
         const minBars = safe.top + safe.bottom;
         if (Math.abs(totalBars - minBars) < 10) return "HIDDEN / SCROLLED";
-        
         if (Math.abs(totalBars - MODES.COMPACT) < 5) return "COMPACT";
         if (Math.abs(totalBars - MODES.BOTTOM) < 5) return "BOTTOM";
         if (Math.abs(totalBars - MODES.TOP) < 5) return "TOP";
         return "TRANSITIONING...";
     }
 
-    function updateDebug() {
-        let info = document.getElementById('debug-info');
-        if (!info) {
-            info = document.createElement('div');
-            info.id = 'debug-info';
-            info.style.cssText = "position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.85); color: #00ff00; padding: 15px; border-radius: 12px; font-family: monospace; font-size: 11px; z-index: 9999; pointer-events: none; border: 1px solid #333; line-height: 1.5; text-align: left; min-width: 200px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);";
-            document.body.appendChild(info);
-        }
-        
-        const safe = getSafeAreas();
-        const vv = window.visualViewport;
+    function updateLayout(force = false) {
         const w = window.innerWidth;
         const h = window.innerHeight;
+        
+        // Only recalculate on init or major resize (e.g. rotation)
+        if (!force && isCalculated && Math.abs(w - lastWidth) < 10) return;
+        
+        const safe = getSafeAreas();
         
         // Find reference height for current width
         let refH = 0;
@@ -66,17 +62,34 @@
             }
         }
 
-        const totalBars = refH ? (refH - h) : 0;
+        if (!refH) return;
+
+        const totalBars = refH - h;
         const mode = detectMode(totalBars, safe);
         const minBars = safe.top + safe.bottom;
         const gain = Math.max(0, totalBars - minBars);
 
-        // Apply dynamic height to document body to ensure exactly enough scroll 
-        // to hide bars without unnecessary over-scroll.
+        // LOCK the height once detected at start
         const optimalHeight = h + gain + 1; 
         document.body.style.minHeight = optimalHeight + 'px';
         document.documentElement.style.setProperty('--safari-gain', gain + 'px');
+        
+        isCalculated = true;
+        lastWidth = w;
+        
+        updateDebugDisplay(mode, totalBars, minBars, w, h, safe, gain);
+    }
 
+    function updateDebugDisplay(mode, totalBars, minBars, w, h, safe, gain) {
+        let info = document.getElementById('debug-info');
+        if (!info) {
+            info = document.createElement('div');
+            info.id = 'debug-info';
+            info.style.cssText = "position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.85); color: #00ff00; padding: 15px; border-radius: 12px; font-family: monospace; font-size: 11px; z-index: 9999; pointer-events: none; border: 1px solid #333; line-height: 1.5; text-align: left; min-width: 200px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);";
+            document.body.appendChild(info);
+        }
+        
+        const vv = window.visualViewport;
         info.innerHTML = `
             <b style="color: #fff; border-bottom: 1px solid #444; display: block; margin-bottom: 5px; padding-bottom: 3px;">SAFARI DYNAMICS</b>
             State: <span style="color: #609DFF">${mode}</span><br>
@@ -90,19 +103,39 @@
         `;
     }
 
-    window.addEventListener('resize', updateDebug);
-    window.addEventListener('scroll', updateDebug);
-    if (window.visualViewport) {
-        window.visualViewport.addEventListener('resize', updateDebug);
-        window.visualViewport.addEventListener('scroll', updateDebug);
-    }
+    window.addEventListener('resize', () => {
+        // Debounce resize to handle rotation smoothly
+        clearTimeout(window.resizeTimeout);
+        window.resizeTimeout = setTimeout(() => updateLayout(), 200);
+    });
+    
+    // Only update debug info on scroll, not layout
+    window.addEventListener('scroll', () => {
+        // We could call updateDebugDisplay here if refH is available, 
+        // but for stability let's stick to interval/init
+    });
     
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', updateDebug);
+        document.addEventListener('DOMContentLoaded', () => updateLayout(true));
     } else {
-        updateDebug();
+        updateLayout(true);
     }
     
-    // Periodic update to catch Safari UI changes that don't trigger resize immediately
-    setInterval(updateDebug, 1000);
+    // Catch Safari's final layout settle
+    setTimeout(() => updateLayout(true), 500);
+    
+    setInterval(() => {
+        const safe = getSafeAreas();
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        let refH = 0;
+        for (const k in IPHONE_SIZES) if (IPHONE_SIZES[k].w === w) refH = IPHONE_SIZES[k].h;
+        if (refH) {
+            const totalBars = refH - h;
+            const mode = detectMode(totalBars, safe);
+            const minBars = safe.top + safe.bottom;
+            const gain = Math.max(0, totalBars - minBars);
+            updateDebugDisplay(mode, totalBars, minBars, w, h, safe, gain);
+        }
+    }, 1000);
 })();
