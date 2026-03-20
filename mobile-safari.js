@@ -34,7 +34,12 @@
 
     let isCalculated = false;
     let lastWidth = 0;
-    let stableHeight = 0; // Height of the viewport with bars visible
+    let stableHeight = 0;
+    let lastScrollY = 0;
+    
+    // Lerp state
+    let navOpacity = 1;
+    let streamsPadding = 52;
 
     function detectMode(totalBars, safe) {
         const minBars = safe.top + safe.bottom;
@@ -58,9 +63,7 @@
         const minBars = safe.top + safe.bottom;
         const maxGain = Math.max(0, totalBars - minBars);
 
-        // LOCK the scrollable area
         document.body.style.minHeight = (h + maxGain + 1) + 'px';
-        
         stableHeight = h;
         isCalculated = true;
         lastWidth = w;
@@ -82,25 +85,30 @@
         const totalBars = refH - h;
         const mode = detectMode(totalBars, safe);
         const minBars = safe.top + safe.bottom;
-        
-        // currentGain is how much the viewport has expanded since the bars started hiding
         const currentGain = Math.max(0, h - stableHeight);
-        const maxPossibleGain = Math.max(0, (refH - minBars) - stableHeight);
-        
-        // Calculate Top Nav Opacity and Streams Padding based on scroll
+
+        // Targets based on scroll (2x slower: divide by 100 instead of 50)
         const scrollY = window.scrollY;
-        const navOpacity = Math.max(0, 1 - (scrollY / 50));
-        const streamsPadding = Math.max(0, 52 - scrollY);
+        const direction = scrollY > lastScrollY ? 'down' : 'up';
+        
+        const targetOpacity = Math.max(0, 1 - (scrollY / 100));
+        const targetPadding = Math.max(6, 52 - (scrollY / 1.5)); // Min 6px for Safari transparency
+
+        // Damping factors (Down: faster, Up: much slower)
+        const factor = direction === 'down' ? 0.1 : 0.02; // Up is 5x slower for now
+        
+        navOpacity += (targetOpacity - navOpacity) * factor;
+        streamsPadding += (targetPadding - streamsPadding) * factor;
 
         document.documentElement.style.setProperty('--safari-gain-dynamic', currentGain + 'px');
-        document.documentElement.style.setProperty('--safari-gain-max', maxPossibleGain + 'px');
         document.documentElement.style.setProperty('--nav-opacity', navOpacity);
         document.documentElement.style.setProperty('--streams-padding-top', streamsPadding + 'px');
         
-        updateDebugDisplay(mode, totalBars, minBars, w, h, safe, currentGain, navOpacity, streamsPadding);
+        lastScrollY = scrollY;
+        updateDebugDisplay(mode, totalBars, minBars, w, h, safe, currentGain, navOpacity, streamsPadding, direction);
     }
 
-    function updateDebugDisplay(mode, totalBars, minBars, w, h, safe, gain, navOpacity, streamsPadding) {
+    function updateDebugDisplay(mode, totalBars, minBars, w, h, safe, gain, navO, streamsP, dir) {
         let info = document.getElementById('debug-info');
         if (!info) {
             info = document.createElement('div');
@@ -111,41 +119,30 @@
         
         const vv = window.visualViewport;
         info.innerHTML = `
-            <b style="color: #fff; border-bottom: 1px solid #444; display: block; margin-bottom: 5px; padding-bottom: 3px;">SAFARI DYNAMICS (DYNAMIC)</b>
+            <b style="color: #fff; border-bottom: 1px solid #444; display: block; margin-bottom: 5px; padding-bottom: 3px;">SAFARI DYNAMICS (DAMPED)</b>
             State: <span style="color: #609DFF">${mode}</span><br>
-            Current Bars: ${totalBars}px<br>
+            Current Bars: ${totalBars}px | Dir: ${dir}<br>
             Hidden Bars: ${minBars}px<br>
             <hr style="border: 0; border-top: 1px solid #333; margin: 5px 0;">
             Window: ${w} x ${h}<br>
-            Safe Area: T:${safe.top} B:${safe.bottom}<br>
+            Nav Opacity: ${navO.toFixed(2)}<br>
+            Streams Pad: ${streamsP.toFixed(0)}px (min 6)<br>
             Gain Dynamic: +${gain}px<br>
-            Nav Opacity: ${navOpacity.toFixed(2)}<br>
-            Streams Pad: ${streamsPadding.toFixed(0)}px<br>
-            ${vv ? `Visual: ${vv.width.toFixed(0)} x ${vv.height.toFixed(0)}<br>Offset: ${vv.offsetLeft.toFixed(0)}, ${vv.offsetTop.toFixed(0)}` : 'Visual: N/A'}
+            ${vv ? `Visual: ${vv.width.toFixed(0)} x ${vv.height.toFixed(0)}` : 'Visual: N/A'}
         `;
     }
 
+    const animate = () => {
+        updateReactiveUI();
+        requestAnimationFrame(animate);
+    };
+    
     window.addEventListener('resize', () => {
         const w = window.innerWidth;
-        if (Math.abs(w - lastWidth) > 10) {
-            isCalculated = false;
-            initLayout();
-        } else {
-            updateReactiveUI();
-        }
+        if (Math.abs(w - lastWidth) > 10) { isCalculated = false; initLayout(); }
     });
     
-    window.addEventListener('scroll', updateReactiveUI);
-    
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initLayout);
-    } else {
-        initLayout();
-    }
-    
-    // Catch Safari's final layout settle
+    if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', initLayout); } else { initLayout(); }
     setTimeout(initLayout, 500);
-    
-    // Periodic update for debug panel accuracy
-    setInterval(updateReactiveUI, 1000);
+    requestAnimationFrame(animate);
 })();
