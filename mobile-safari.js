@@ -42,7 +42,7 @@ let debugVisible = false;
 // Video stabilization: freeze sizing during active scroll/rubber-band
 let isScrolling = false;
 let scrollStopTimer = null;
-const VIDEO_SETTLE_DELAY = 250; // ms after scroll stops before resizing video
+const VIDEO_SETTLE_DELAY = 125; // ms after scroll stops before resizing video
 
 // Current state (1:1 with scroll now)
 let navOpacity = 1;
