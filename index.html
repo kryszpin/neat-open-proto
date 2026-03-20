@@ -13,6 +13,9 @@
 
     <meta name="color-scheme" content="dark light">
     <title>Neat Open Proto Mobile</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -231,7 +234,7 @@
             max-height: 100%;
             background: rgba(255, 255, 255, 0.04);
             border: 0.5px solid rgba(255, 255, 255, 0.08);
-            border-radius: 40px;
+            border-radius: 24px;
             overflow: hidden;
             display: flex;
             align-items: center;
@@ -239,21 +242,34 @@
             position: relative;
         }
 
-        .video-placeholder {
+        .video-content-square img {
             width: 100%;
             height: 100%;
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            object-fit: cover;
+            display: block;
         }
 
-        .video-placeholder::after {
-            content: "MAIN VIDEO";
+        .video-name-tag {
+            position: absolute;
+            bottom: 12px;
+            left: 12px;
+            height: 24px;
+            padding: 0 8px;
+            background: rgba(0, 0, 0, 0.40);
+            border-radius: 120px;
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            display: inline-flex;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .video-name-tag span {
+            color: white;
             font-size: 11px;
-            font-weight: 800;
-            letter-spacing: 0.1em;
-            opacity: 0.2;
+            font-family: 'Golos Text', sans-serif;
+            font-weight: 400;
+            line-height: 16px;
         }
     </style>
 </head>
@@ -290,7 +306,10 @@
     <!-- Part 2.5: Main Video - Dynamic Height -->
     <div class="main-video-area" id="main-video-area">
         <div class="video-content-square">
-            <div class="video-placeholder"></div>
+            <img src="img/andrzej.jpg" alt="Main Video">
+            <div class="video-name-tag">
+                <span>Andrzej</span>
+            </div>
         </div>
     </div>
 
