@@ -75,9 +75,15 @@
             width: 100%;
             padding: var(--streams-padding-top, 52px) 12px 0px 12px;
             z-index: 1001;
+            pointer-events: none; /* Let clicks pass through to nav buttons */
         }
 
-        /* Figma Components */
+        .thumbnails-container {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            pointer-events: auto; /* Thumbs remain clickable */
+        }
         .nav-btn {
             width: 52px;
             height: 44px;

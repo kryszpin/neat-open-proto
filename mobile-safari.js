@@ -126,15 +126,15 @@ function updateReactiveUI() {
     const videoEl = document.getElementById('main-video-area');
     const streamsEl = document.querySelector('.streams-section');
     if (videoEl && streamsEl) {
-        // Use Actual rendered bottom of streams for top boundary (0px gap)
+        // Use Actual rendered bottom of streams for top boundary (+6px gap)
         const sRect = streamsEl.getBoundingClientRect();
-        const vTop = sRect.bottom;
+        const vTop = sRect.bottom + 6;
         
-        // Bottom Boundary: Controls Top (if visible) or Safari Edge
-        let vBottom = h - safe.bottom;
+        // Bottom Boundary: Controls Top (if visible) or Safari Edge (-6px gap)
+        let vBottom = h - safe.bottom - 6;
         if (controlsEl && controlsOpacity > 0.1) {
             const rect = controlsEl.getBoundingClientRect();
-            vBottom = rect.top;
+            vBottom = rect.top - 6;
         }
 
         vHeight = Math.max(0, vBottom - vTop);
