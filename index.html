@@ -76,18 +76,9 @@
             width: 100%;
             padding: var(--streams-padding-top, 52px) 12px 0px 12px;
             z-index: 1001;
-            pointer-events: none;
-            /* Let clicks pass through to nav buttons */
         }
 
-        .thumbnails-container {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-            pointer-events: auto;
-            /* Thumbs remain clickable */
-        }
-
+        /* Figma Components */
         .nav-btn {
             width: 52px;
             height: 44px;
@@ -219,20 +210,33 @@
             border-radius: 0 19px 19px 0;
         }
 
-        /* Main Video Area */
+        /* Main Video Area - Silent Container */
         .main-video-area {
             position: fixed;
             left: 12px;
             right: 12px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 0.5px solid rgba(255, 255, 255, 0.08);
-            border-radius: 32px;
             z-index: 999;
             overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
             pointer-events: none;
+        }
+
+        /* 1:1 Square Video Content */
+        .video-content-square {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            max-width: 100%;
+            max-height: 100%;
+            background: rgba(255, 255, 255, 0.04);
+            border: 0.5px solid rgba(255, 255, 255, 0.08);
+            border-radius: 40px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
         }
 
         .video-placeholder {
@@ -245,7 +249,7 @@
         }
 
         .video-placeholder::after {
-            content: "Space for videos";
+            content: "MAIN VIDEO";
             font-size: 11px;
             font-weight: 800;
             letter-spacing: 0.1em;
@@ -285,7 +289,9 @@
 
     <!-- Part 2.5: Main Video - Dynamic Height -->
     <div class="main-video-area" id="main-video-area">
-        <div class="video-placeholder"></div>
+        <div class="video-content-square">
+            <div class="video-placeholder"></div>
+        </div>
     </div>
 
     <!-- Part 3: Bottom Controls Area -->
