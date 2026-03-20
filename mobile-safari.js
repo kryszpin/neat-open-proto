@@ -39,11 +39,6 @@ let stableHeight = 0;
 let lastScrollY = 0;
 let debugVisible = false;
 
-// Video stabilization: freeze sizing during active scroll/rubber-band
-let isScrolling = false;
-let scrollStopTimer = null;
-const VIDEO_SETTLE_DELAY = 125; // ms after scroll stops before resizing video
-
 // Current state (1:1 with scroll now)
 let navOpacity = 1;
 let streamsPadding = 52;
@@ -144,11 +139,10 @@ function updateReactiveUI() {
 
         vHeight = Math.max(0, vBottom - vTop);
         
-        // Only update dimensions when not actively scrolling (avoids rubber-band jank)
-        if (!isScrolling) {
-            videoEl.style.top = vTop + 'px';
-            videoEl.style.height = vHeight + 'px';
-        }
+        // Instant update for the outer container (Sandwich framing)
+        // Must be 1:1 with scroll to preserve Safari transparency/layout
+        videoEl.style.top = vTop + 'px';
+        videoEl.style.height = vHeight + 'px';
     }
 
     lastScrollY = scrollY;
@@ -190,13 +184,6 @@ window.addEventListener('resize', () => {
     const w = window.innerWidth;
     if (Math.abs(w - lastWidth) > 10) { isCalculated = false; initLayout(); }
 });
-
-// Track scroll activity to freeze video sizing during rubber-band animations
-window.addEventListener('scroll', () => {
-    isScrolling = true;
-    clearTimeout(scrollStopTimer);
-    scrollStopTimer = setTimeout(() => { isScrolling = false; }, VIDEO_SETTLE_DELAY);
-}, { passive: true });
 
 if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', initLayout); } else { initLayout(); }
 setTimeout(initLayout, 500);
