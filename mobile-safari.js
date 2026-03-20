@@ -37,6 +37,7 @@ let isCalculated = false;
 let lastWidth = 0;
 let stableHeight = 0;
 let lastScrollY = 0;
+let debugVisible = false;
 
 // Current state (1:1 with scroll now)
 let navOpacity = 1;
@@ -69,6 +70,16 @@ function initLayout() {
     stableHeight = h;
     isCalculated = true;
     lastWidth = w;
+
+    // Toggle Debug UI
+    const infoBtn = document.getElementById('info-btn');
+    if (infoBtn) {
+        infoBtn.onclick = () => {
+            debugVisible = !debugVisible;
+            const info = document.getElementById('debug-info');
+            if (info) info.style.display = debugVisible ? 'block' : 'none';
+        };
+    }
 
     updateReactiveUI();
 }
@@ -110,16 +121,37 @@ function updateReactiveUI() {
         controlsEl.style.pointerEvents = (controlsOpacity < 0.1) ? 'none' : 'auto';
     }
 
+    // --- SANDWICH VIDEO AREA LOGIC ---
+    let vHeight = 0;
+    const videoEl = document.getElementById('main-video-area');
+    const streamsEl = document.querySelector('.streams-section');
+    if (videoEl && streamsEl) {
+        // Use Actual rendered bottom of streams for top boundary (0px gap)
+        const sRect = streamsEl.getBoundingClientRect();
+        const vTop = sRect.bottom;
+        
+        // Bottom Boundary: Controls Top (if visible) or Safari Edge
+        let vBottom = h - safe.bottom;
+        if (controlsEl && controlsOpacity > 0.1) {
+            const rect = controlsEl.getBoundingClientRect();
+            vBottom = rect.top;
+        }
+
+        vHeight = Math.max(0, vBottom - vTop);
+        videoEl.style.top = vTop + 'px';
+        videoEl.style.height = vHeight + 'px';
+    }
+
     lastScrollY = scrollY;
-    updateDebugDisplay(mode, totalBars, minBars, w, h, safe, currentGain, navOpacity, streamsPadding, controlsOpacity, direction);
+    updateDebugDisplay(mode, totalBars, minBars, w, h, safe, currentGain, navOpacity, streamsPadding, controlsOpacity, direction, vHeight);
 }
 
-function updateDebugDisplay(mode, totalBars, minBars, w, h, safe, gain, navO, streamsP, controlsO, dir) {
+function updateDebugDisplay(mode, totalBars, minBars, w, h, safe, gain, navO, streamsP, controlsO, dir, videoH) {
     let info = document.getElementById('debug-info');
     if (!info) {
         info = document.createElement('div');
         info.id = 'debug-info';
-        info.style.cssText = "position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.85); color: #00ff00; padding: 15px; border-radius: 12px; font-family: monospace; font-size: 11px; z-index: 9999; pointer-events: none; border: 1px solid #333; line-height: 1.5; text-align: left; min-width: 200px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);";
+        info.style.cssText = "position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.85); color: #00ff00; padding: 15px; border-radius: 12px; font-family: monospace; font-size: 11px; z-index: 9999; pointer-events: none; border: 1px solid #333; line-height: 1.5; text-align: left; min-width: 200px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: none;";
         document.body.appendChild(info);
     }
 
@@ -131,7 +163,7 @@ function updateDebugDisplay(mode, totalBars, minBars, w, h, safe, gain, navO, st
             <hr style="border: 0; border-top: 1px solid #333; margin: 5px 0;">
             Nav Opacity: ${navO.toFixed(2)}<br>
             Streams Pad: ${streamsP.toFixed(0)}px<br>
-            Ctrl Opacity: ${controlsO.toFixed(2)}<br>
+            Ctrl Opacity: ${controlsO.toFixed(2)} | VidH: ${videoH.toFixed(0)}<br>
             Gain Dynamic: +${gain}px<br>
             ${vv ? `Visual: ${vv.width.toFixed(0)} x ${vv.height.toFixed(0)}` : 'Visual: N/A'}
         `;

@@ -3,13 +3,14 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+
     <!-- Anti-Cache Measures -->
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    
+
     <meta name="color-scheme" content="dark light">
     <title>Neat Open Proto Mobile</title>
     <style>
@@ -62,16 +63,18 @@
             margin-bottom: 12px;
             z-index: 1000;
             opacity: var(--nav-opacity, 1);
-            pointer-events: none; /* Prevents interaction when faded out */
+            pointer-events: none;
+            /* Prevents interaction when faded out */
         }
 
         /* Streams - Static for now to debug transparency */
         .streams-section {
             position: fixed;
+            top: 0;
             display: flex;
             justify-content: center;
             width: 100%;
-            padding: var(--streams-padding-top, 52px) 12px 12px 12px;
+            padding: var(--streams-padding-top, 52px) 12px 0px 12px;
             z-index: 1001;
         }
 
@@ -206,6 +209,39 @@
             padding-left: 10px;
             border-radius: 0 19px 19px 0;
         }
+
+        /* Main Video Area */
+        .main-video-area {
+            position: fixed;
+            left: 12px;
+            right: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 0.5px solid rgba(255, 255, 255, 0.08);
+            border-radius: 32px;
+            z-index: 999;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+        }
+
+        .video-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .video-placeholder::after {
+            content: "MAIN VIDEO";
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            opacity: 0.2;
+        }
     </style>
 </head>
 
@@ -222,7 +258,7 @@
                 <img src="img/arrow.svg" width="16" height="16" alt="Arrow">
             </div>
         </div>
-        <div class="nav-btn">
+        <div class="nav-btn" id="info-btn">
             <img src="img/info.svg" width="24" height="24" alt="Info">
         </div>
     </div>
@@ -236,6 +272,11 @@
             <div class="thumbnail" style="background-image: url('img/avatar2.png')"></div>
             <div class="thumbnail" style="background-image: url('img/avatar1.png')"></div>
         </div>
+    </div>
+
+    <!-- Part 2.5: Main Video - Dynamic Height -->
+    <div class="main-video-area" id="main-video-area">
+        <div class="video-placeholder"></div>
     </div>
 
     <!-- Part 3: Bottom Controls Area -->
