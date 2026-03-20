@@ -63,7 +63,8 @@
             margin-bottom: 12px;
             z-index: 1000;
             opacity: var(--nav-opacity, 1);
-            pointer-events: auto; /* Ensure navigation buttons are clickable */
+            pointer-events: auto;
+            /* Ensure navigation buttons are clickable */
         }
 
         /* Streams - Static for now to debug transparency */
@@ -75,15 +76,18 @@
             width: 100%;
             padding: var(--streams-padding-top, 52px) 12px 0px 12px;
             z-index: 1001;
-            pointer-events: none; /* Let clicks pass through to nav buttons */
+            pointer-events: none;
+            /* Let clicks pass through to nav buttons */
         }
 
         .thumbnails-container {
             display: flex;
             gap: 8px;
             align-items: center;
-            pointer-events: auto; /* Thumbs remain clickable */
+            pointer-events: auto;
+            /* Thumbs remain clickable */
         }
+
         .nav-btn {
             width: 52px;
             height: 44px;
@@ -241,7 +245,7 @@
         }
 
         .video-placeholder::after {
-            content: "MAIN VIDEO";
+            content: "Space for videos";
             font-size: 11px;
             font-weight: 800;
             letter-spacing: 0.1em;
