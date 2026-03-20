@@ -63,8 +63,7 @@
             margin-bottom: 12px;
             z-index: 1000;
             opacity: var(--nav-opacity, 1);
-            pointer-events: none;
-            /* Prevents interaction when faded out */
+            pointer-events: auto; /* Ensure navigation buttons are clickable */
         }
 
         /* Streams - Static for now to debug transparency */

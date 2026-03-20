@@ -148,6 +148,9 @@ function updateReactiveUI() {
 
 function updateDebugDisplay(mode, totalBars, minBars, w, h, safe, gain, navO, streamsP, controlsO, dir, videoH) {
     let info = document.getElementById('debug-info');
+    if (info) info.style.display = debugVisible ? 'block' : 'none';
+    if (!debugVisible) return;
+
     if (!info) {
         info = document.createElement('div');
         info.id = 'debug-info';
