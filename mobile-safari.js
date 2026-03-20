@@ -87,18 +87,20 @@
         const currentGain = Math.max(0, h - stableHeight);
         const maxPossibleGain = Math.max(0, (refH - minBars) - stableHeight);
         
-        // Calculate Top Nav Opacity based on scroll
+        // Calculate Top Nav Opacity and Streams Padding based on scroll
         const scrollY = window.scrollY;
         const navOpacity = Math.max(0, 1 - (scrollY / 50));
+        const streamsPadding = Math.max(0, 52 - scrollY);
 
         document.documentElement.style.setProperty('--safari-gain-dynamic', currentGain + 'px');
         document.documentElement.style.setProperty('--safari-gain-max', maxPossibleGain + 'px');
         document.documentElement.style.setProperty('--nav-opacity', navOpacity);
+        document.documentElement.style.setProperty('--streams-padding-top', streamsPadding + 'px');
         
-        updateDebugDisplay(mode, totalBars, minBars, w, h, safe, currentGain, navOpacity);
+        updateDebugDisplay(mode, totalBars, minBars, w, h, safe, currentGain, navOpacity, streamsPadding);
     }
 
-    function updateDebugDisplay(mode, totalBars, minBars, w, h, safe, gain, navOpacity) {
+    function updateDebugDisplay(mode, totalBars, minBars, w, h, safe, gain, navOpacity, streamsPadding) {
         let info = document.getElementById('debug-info');
         if (!info) {
             info = document.createElement('div');
@@ -118,6 +120,7 @@
             Safe Area: T:${safe.top} B:${safe.bottom}<br>
             Gain Dynamic: +${gain}px<br>
             Nav Opacity: ${navOpacity.toFixed(2)}<br>
+            Streams Pad: ${streamsPadding.toFixed(0)}px<br>
             ${vv ? `Visual: ${vv.width.toFixed(0)} x ${vv.height.toFixed(0)}<br>Offset: ${vv.offsetLeft.toFixed(0)}, ${vv.offsetTop.toFixed(0)}` : 'Visual: N/A'}
         `;
     }
