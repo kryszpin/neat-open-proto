@@ -43,6 +43,8 @@ let lastScrollY = 0;
 // Lerp state
 let navOpacity = 1;
 let streamsPadding = 52;
+let controlsOpacity = 1;
+let controlsY = 0;
 
 function detectMode(totalBars, safe) {
     const minBars = safe.top + safe.bottom;
@@ -90,28 +92,34 @@ function updateReactiveUI() {
     const minBars = safe.top + safe.bottom;
     const currentGain = Math.max(0, h - stableHeight);
 
-    // Targets based on scroll (2x slower: divide by 100 instead of 50)
+    // Targets based on scroll
     const scrollY = window.scrollY;
     const direction = scrollY > lastScrollY ? 'down' : 'up';
 
-    const targetOpacity = Math.max(0, 1 - (scrollY / 100));
-    const targetPadding = Math.max(STREAMS_MIN_PADDING, 52 - (scrollY / 1.5));
+    const targetNavOpacity = Math.max(0, 1 - (scrollY / 100));
+    const targetStreamsPadding = Math.max(STREAMS_MIN_PADDING, 52 - (scrollY / 1.5));
+    const targetControlsOpacity = Math.max(0, 1 - (scrollY / 80));
+    const targetControlsY = Math.min(100, scrollY * 1.5); // Slides down up to 100px
 
     // Damping factors
     const factor = direction === 'down' ? LERP_DOWN : LERP_UP;
 
-    navOpacity += (targetOpacity - navOpacity) * factor;
-    streamsPadding += (targetPadding - streamsPadding) * factor;
+    navOpacity += (targetNavOpacity - navOpacity) * factor;
+    streamsPadding += (targetStreamsPadding - streamsPadding) * factor;
+    controlsOpacity += (targetControlsOpacity - controlsOpacity) * factor;
+    controlsY += (targetControlsY - controlsY) * factor;
 
     document.documentElement.style.setProperty('--safari-gain-dynamic', currentGain + 'px');
     document.documentElement.style.setProperty('--nav-opacity', navOpacity);
     document.documentElement.style.setProperty('--streams-padding-top', streamsPadding + 'px');
+    document.documentElement.style.setProperty('--controls-opacity', controlsOpacity);
+    document.documentElement.style.setProperty('--controls-y', controlsY + 'px');
 
     lastScrollY = scrollY;
-    updateDebugDisplay(mode, totalBars, minBars, w, h, safe, currentGain, navOpacity, streamsPadding, direction);
+    updateDebugDisplay(mode, totalBars, minBars, w, h, safe, currentGain, navOpacity, streamsPadding, controlsOpacity, direction);
 }
 
-function updateDebugDisplay(mode, totalBars, minBars, w, h, safe, gain, navO, streamsP, dir) {
+function updateDebugDisplay(mode, totalBars, minBars, w, h, safe, gain, navO, streamsP, controlsO, dir) {
     let info = document.getElementById('debug-info');
     if (!info) {
         info = document.createElement('div');
@@ -125,11 +133,10 @@ function updateDebugDisplay(mode, totalBars, minBars, w, h, safe, gain, navO, st
             <b style="color: #fff; border-bottom: 1px solid #444; display: block; margin-bottom: 5px; padding-bottom: 3px;">SAFARI DYNAMICS (DAMPED)</b>
             State: <span style="color: #609DFF">${mode}</span><br>
             Current Bars: ${totalBars}px | Dir: ${dir}<br>
-            Hidden Bars: ${minBars}px<br>
             <hr style="border: 0; border-top: 1px solid #333; margin: 5px 0;">
-            Window: ${w} x ${h}<br>
             Nav Opacity: ${navO.toFixed(2)}<br>
-            Streams Pad: ${streamsP.toFixed(0)}px (min ${STREAMS_MIN_PADDING})<br>
+            Streams Pad: ${streamsP.toFixed(0)}px<br>
+            Ctrl Opacity: ${controlsO.toFixed(2)}<br>
             Gain Dynamic: +${gain}px<br>
             ${vv ? `Visual: ${vv.width.toFixed(0)} x ${vv.height.toFixed(0)}` : 'Visual: N/A'}
         `;
