@@ -1,6 +1,4 @@
 // --- CONFIGURATION ---
-const LERP_DOWN = 0.2;     // Speed when scrolling down (faster)
-const LERP_UP = 0.02;    // Speed when scrolling up (slower/lazy)
 const STREAMS_MIN_PADDING = 6; // Min padding to save Safari transparency
 // ---------------------
 
@@ -40,7 +38,7 @@ let lastWidth = 0;
 let stableHeight = 0;
 let lastScrollY = 0;
 
-// Lerp state
+// Current state (1:1 with scroll now)
 let navOpacity = 1;
 let streamsPadding = 52;
 let controlsOpacity = 1;
@@ -95,16 +93,10 @@ function updateReactiveUI() {
     const scrollY = window.scrollY;
     const direction = scrollY > lastScrollY ? 'down' : 'up';
 
-    const targetNavOpacity = Math.max(0, 1 - (scrollY / 100));
-    const targetStreamsPadding = Math.max(STREAMS_MIN_PADDING, 52 - (scrollY / 1.5));
-    const targetControlsOpacity = Math.max(0, 1 - (scrollY / 80));
-
-    // Damping factors
-    const factor = direction === 'down' ? LERP_DOWN : LERP_UP;
-
-    navOpacity += (targetNavOpacity - navOpacity) * factor;
-    streamsPadding += (targetStreamsPadding - streamsPadding) * factor;
-    controlsOpacity += (targetControlsOpacity - controlsOpacity) * factor;
+    // 1:1 Scroll Responsiveness (removed damping)
+    navOpacity = Math.max(0, 1 - (scrollY / 100));
+    streamsPadding = Math.max(STREAMS_MIN_PADDING, 52 - (scrollY / 1.5));
+    controlsOpacity = Math.max(0, 1 - (scrollY / 80));
 
     document.documentElement.style.setProperty('--safari-gain-dynamic', currentGain + 'px');
     document.documentElement.style.setProperty('--nav-opacity', navOpacity);
@@ -133,7 +125,7 @@ function updateDebugDisplay(mode, totalBars, minBars, w, h, safe, gain, navO, st
 
     const vv = window.visualViewport;
     info.innerHTML = `
-            <b style="color: #fff; border-bottom: 1px solid #444; display: block; margin-bottom: 5px; padding-bottom: 3px;">SAFARI DYNAMICS (DAMPED)</b>
+            <b style="color: #fff; border-bottom: 1px solid #444; display: block; margin-bottom: 5px; padding-bottom: 3px;">SAFARI DYNAMICS (DYNAMIC)</b>
             State: <span style="color: #609DFF">${mode}</span><br>
             Current Bars: ${totalBars}px | Dir: ${dir}<br>
             <hr style="border: 0; border-top: 1px solid #333; margin: 5px 0;">
