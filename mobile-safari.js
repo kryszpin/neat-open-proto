@@ -86,14 +86,19 @@
         // currentGain is how much the viewport has expanded since the bars started hiding
         const currentGain = Math.max(0, h - stableHeight);
         const maxPossibleGain = Math.max(0, (refH - minBars) - stableHeight);
+        
+        // Calculate Top Nav Opacity based on scroll
+        const scrollY = window.scrollY;
+        const navOpacity = Math.max(0, 1 - (scrollY / 50));
 
         document.documentElement.style.setProperty('--safari-gain-dynamic', currentGain + 'px');
         document.documentElement.style.setProperty('--safari-gain-max', maxPossibleGain + 'px');
+        document.documentElement.style.setProperty('--nav-opacity', navOpacity);
         
-        updateDebugDisplay(mode, totalBars, minBars, w, h, safe, currentGain);
+        updateDebugDisplay(mode, totalBars, minBars, w, h, safe, currentGain, navOpacity);
     }
 
-    function updateDebugDisplay(mode, totalBars, minBars, w, h, safe, gain) {
+    function updateDebugDisplay(mode, totalBars, minBars, w, h, safe, gain, navOpacity) {
         let info = document.getElementById('debug-info');
         if (!info) {
             info = document.createElement('div');
@@ -112,6 +117,7 @@
             Window: ${w} x ${h}<br>
             Safe Area: T:${safe.top} B:${safe.bottom}<br>
             Gain Dynamic: +${gain}px<br>
+            Nav Opacity: ${navOpacity.toFixed(2)}<br>
             ${vv ? `Visual: ${vv.width.toFixed(0)} x ${vv.height.toFixed(0)}<br>Offset: ${vv.offsetLeft.toFixed(0)}, ${vv.offsetTop.toFixed(0)}` : 'Visual: N/A'}
         `;
     }
