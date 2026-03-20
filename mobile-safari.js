@@ -44,7 +44,6 @@ let lastScrollY = 0;
 let navOpacity = 1;
 let streamsPadding = 52;
 let controlsOpacity = 1;
-let controlsY = 0;
 
 function detectMode(totalBars, safe) {
     const minBars = safe.top + safe.bottom;
@@ -99,7 +98,6 @@ function updateReactiveUI() {
     const targetNavOpacity = Math.max(0, 1 - (scrollY / 100));
     const targetStreamsPadding = Math.max(STREAMS_MIN_PADDING, 52 - (scrollY / 1.5));
     const targetControlsOpacity = Math.max(0, 1 - (scrollY / 80));
-    const targetControlsY = Math.min(100, scrollY * 1.5); // Slides down up to 100px
 
     // Damping factors
     const factor = direction === 'down' ? LERP_DOWN : LERP_UP;
@@ -107,13 +105,18 @@ function updateReactiveUI() {
     navOpacity += (targetNavOpacity - navOpacity) * factor;
     streamsPadding += (targetStreamsPadding - streamsPadding) * factor;
     controlsOpacity += (targetControlsOpacity - controlsOpacity) * factor;
-    controlsY += (targetControlsY - controlsY) * factor;
 
     document.documentElement.style.setProperty('--safari-gain-dynamic', currentGain + 'px');
     document.documentElement.style.setProperty('--nav-opacity', navOpacity);
     document.documentElement.style.setProperty('--streams-padding-top', streamsPadding + 'px');
     document.documentElement.style.setProperty('--controls-opacity', controlsOpacity);
-    document.documentElement.style.setProperty('--controls-y', controlsY + 'px');
+    
+    // Handle physical visibility to clear space after fade-out
+    const controlsEl = document.querySelector('.controls-area');
+    if (controlsEl) {
+        controlsEl.style.visibility = (controlsOpacity < 0.01) ? 'hidden' : 'visible';
+        controlsEl.style.pointerEvents = (controlsOpacity < 0.1) ? 'none' : 'auto';
+    }
 
     lastScrollY = scrollY;
     updateDebugDisplay(mode, totalBars, minBars, w, h, safe, currentGain, navOpacity, streamsPadding, controlsOpacity, direction);
