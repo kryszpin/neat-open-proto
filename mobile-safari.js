@@ -1,7 +1,7 @@
 // --- CONFIGURATION ---
 const LERP_DOWN = 0.2;     // Speed when scrolling down (faster)
 const LERP_UP = 0.02;    // Speed when scrolling up (slower/lazy)
-const STREAMS_MIN_PADDING = 4; // Min padding to save Safari transparency
+const STREAMS_MIN_PADDING = 6; // Min padding to save Safari transparency
 // ---------------------
 
 const IPHONE_SIZES = {
