@@ -211,11 +211,14 @@
 
         .controls-area {
             opacity: var(--controls-opacity, 1);
-            transition: opacity 0.25s linear;
+            transition: opacity 0.25s linear, transform 0.25s linear;
             display: flex;
             gap: 8px;
             align-items: center;
             width: max-content;
+            /* Scale down toward bottom while fading */
+            transform: scale(var(--controls-opacity, 1));
+            transform-origin: bottom center;
         }
 
         .controls-pill {
