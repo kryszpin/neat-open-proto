@@ -63,13 +63,18 @@
             flex-direction: column;
             z-index: 100;
             pointer-events: none;
+            /* Sacred 6px bottom gap for Safari transparency */
+            padding-bottom: 6px;
+            /* DEBUG */ border: 2px solid rgba(255, 0, 0, 0.3);
         }
 
         /* Top Section: Nav + Streams */
         .top-section {
             flex-shrink: 0;
-            padding-top: var(--streams-padding-top, 52px);
+            /* Min 6px from top for Safari transparency */
+            padding-top: max(6px, env(safe-area-inset-top, 6px));
             pointer-events: auto;
+            /* DEBUG */ border: 1px solid rgba(0, 255, 255, 0.3);
         }
 
         .nav-section {
@@ -81,7 +86,11 @@
             padding: 0 12px;
             margin-bottom: 12px;
             opacity: var(--nav-opacity, 1);
+            /* Collapse when fading — streams slide up naturally */
+            max-height: calc(var(--nav-opacity, 1) * 56px);
+            overflow: hidden;
             pointer-events: auto;
+            /* DEBUG */ border: 1px solid rgba(255, 255, 0, 0.3);
         }
 
         .streams-section {
@@ -89,6 +98,7 @@
             justify-content: center;
             width: 100%;
             padding: 0 12px;
+            /* DEBUG */ border: 1px solid rgba(0, 0, 255, 0.3);
         }
 
         /* Figma Components */
@@ -170,13 +180,12 @@
             flex-shrink: 0;
             display: flex;
             justify-content: center;
-            /* Always keep 6px at bottom to preserve Safari transparency */
-            padding-bottom: max(6px, calc(6px + env(safe-area-inset-bottom, 0px)));
             pointer-events: auto;
-            /* Animate height based on controls opacity */
-            max-height: calc(6px + var(--controls-opacity, 1) * 80px);
+            /* Animate controls height based on opacity */
+            max-height: calc(var(--controls-opacity, 1) * 80px);
             overflow: hidden;
             transition: max-height 0.15s ease-out;
+            /* DEBUG */ border: 1px solid rgba(255, 0, 255, 0.3);
         }
 
         .controls-area {
