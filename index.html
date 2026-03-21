@@ -71,8 +71,7 @@
         /* Top Section: Nav + Streams */
         .top-section {
             flex-shrink: 0;
-            /* Min 6px from top for Safari transparency */
-            padding-top: max(6px, env(safe-area-inset-top, 6px));
+            padding-top: 0;
             pointer-events: auto;
             /* DEBUG */ border: 1px solid rgba(0, 255, 255, 0.3);
         }
@@ -84,7 +83,6 @@
             height: 44px;
             width: 100%;
             padding: 0 12px;
-            margin-bottom: 12px;
             opacity: var(--nav-opacity, 1);
             /* Collapse when fading — streams slide up naturally */
             max-height: calc(var(--nav-opacity, 1) * 56px);
@@ -97,7 +95,7 @@
             display: flex;
             justify-content: center;
             width: 100%;
-            padding: 0 12px;
+            padding: 8px 12px 0 12px;
             /* DEBUG */ border: 1px solid rgba(0, 0, 255, 0.3);
         }
 
@@ -180,6 +178,7 @@
             flex-shrink: 0;
             display: flex;
             justify-content: center;
+            padding-bottom: 0;
             pointer-events: auto;
             /* Animate controls height based on opacity */
             max-height: calc(var(--controls-opacity, 1) * 80px);
