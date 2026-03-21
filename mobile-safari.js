@@ -71,25 +71,6 @@ function initLayout() {
     isCalculated = true;
     lastWidth = w;
 
-    // Toggle Debug UI (info button)
-    const infoBtn = document.getElementById('info-btn');
-    if (infoBtn) {
-        infoBtn.onclick = () => {
-            debugVisible = !debugVisible;
-            const info = document.getElementById('debug-info');
-            if (info) info.style.display = debugVisible ? 'block' : 'none';
-        };
-    }
-
-    // Toggle Debug Borders (user button)
-    const userBtn = document.getElementById('user-btn');
-    if (userBtn) {
-        userBtn.onclick = () => {
-            const overlay = document.querySelector('.layout-overlay');
-            if (overlay) overlay.classList.toggle('debug-borders');
-        };
-    }
-
     updateReactiveUI();
 }
 
@@ -166,6 +147,31 @@ window.addEventListener('resize', () => {
     if (Math.abs(w - lastWidth) > 10) { isCalculated = false; initLayout(); }
 });
 
-if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', initLayout); } else { initLayout(); }
+function initButtons() {
+    // Toggle Debug UI (info button)
+    const infoBtn = document.getElementById('info-btn');
+    if (infoBtn) {
+        infoBtn.onclick = () => {
+            debugVisible = !debugVisible;
+            const info = document.getElementById('debug-info');
+            if (info) info.style.display = debugVisible ? 'block' : 'none';
+        };
+    }
+
+    // Toggle Debug Borders (user button)
+    const userBtn = document.getElementById('user-btn');
+    if (userBtn) {
+        userBtn.onclick = () => {
+            document.body.classList.toggle('debug-borders');
+        };
+    }
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => { initButtons(); initLayout(); });
+} else {
+    initButtons();
+    initLayout();
+}
 setTimeout(initLayout, 500);
 requestAnimationFrame(animate);

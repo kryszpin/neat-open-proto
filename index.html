@@ -53,6 +53,7 @@
         }
 
         /* ========== LAYOUT OVERLAY ========== */
+        /* Covers only the area below streams — video + controls */
         .layout-overlay {
             position: fixed;
             top: 0;
@@ -65,24 +66,32 @@
             pointer-events: none;
             /* Sacred 6px bottom gap for Safari transparency */
             margin-bottom: 6px;
+            /* Top padding pushes content below streams */
+            padding-top: calc(var(--streams-padding-top, 52px) + 72px);
         }
 
         /* Debug overlays — toggled via user button, no layout impact */
-        .layout-overlay.debug-borders { background: rgba(255, 0, 0, 0.05); }
-        .debug-borders .top-section { background: rgba(0, 255, 255, 0.15); }
-        .debug-borders .nav-section { background: rgba(255, 255, 0, 0.15); }
-        .debug-borders .streams-section { background: rgba(0, 0, 255, 0.2); }
-        .debug-borders .main-video-area { background: rgba(0, 255, 0, 0.1); }
-        .debug-borders .bottom-section { background: rgba(255, 0, 255, 0.2); }
-
-        /* Top Section: Nav + Streams */
-        .top-section {
-            flex-shrink: 0;
-            padding-top: 0;
-            overflow: hidden;
-            pointer-events: auto;
+        body.debug-borders .layout-overlay {
+            background: rgba(255, 0, 0, 0.05);
         }
 
+        body.debug-borders .nav-section {
+            background: rgba(255, 255, 0, 0.15);
+        }
+
+        body.debug-borders .streams-section {
+            background: rgba(0, 0, 255, 0.2);
+        }
+
+        body.debug-borders .main-video-area {
+            background: rgba(0, 255, 0, 0.1);
+        }
+
+        body.debug-borders .bottom-section {
+            background: rgba(255, 0, 255, 0.2);
+        }
+
+        /* Nav - Scrolls away naturally with system scroll */
         .nav-section {
             display: flex;
             align-items: center;
@@ -90,19 +99,27 @@
             height: 44px;
             width: 100%;
             padding: 0 12px;
+            margin-top: env(safe-area-inset-top, 12px);
+            margin-bottom: 12px;
+            z-index: 1000;
             opacity: var(--nav-opacity, 1);
-            /* Slide up when fading — negative margin pulls it out of view */
-            margin-top: calc((var(--nav-opacity, 1) - 1) * 56px);
             pointer-events: auto;
         }
 
+        /* Streams - Separate fixed layer, moves up via --streams-padding-top */
         .streams-section {
+            position: fixed;
+            top: 0;
             display: flex;
             justify-content: center;
             width: 100%;
-            /* Slide up 44px (nav height) as nav disappears */
-            margin-top: calc(8px + (var(--nav-opacity, 1) - 1) * 44px);
-            padding: 0 12px;
+            padding: var(--streams-padding-top, 52px) 12px 0 12px;
+            z-index: 1001;
+            pointer-events: none;
+        }
+
+        .thumbnails-container {
+            pointer-events: auto;
         }
 
         /* Figma Components */
@@ -311,37 +328,36 @@
 </head>
 
 <body>
-    <!-- Layout Overlay: Fixed flex container for all visual layers -->
-    <div class="layout-overlay">
-
-        <!-- Top Section: Nav + Streams -->
-        <div class="top-section">
-            <div class="nav-section">
-                <div class="nav-btn" id="user-btn">
-                    <img src="img/user.svg" width="24" height="24" alt="User">
-                    <div class="notification-dot"></div>
-                </div>
-                <div class="brand-pill">
-                    <p>Brand design</p>
-                    <div class="arrow-ico">
-                        <img src="img/arrow.svg" width="16" height="16" alt="Arrow">
-                    </div>
-                </div>
-                <div class="nav-btn" id="info-btn">
-                    <img src="img/info.svg" width="24" height="24" alt="Info">
-                </div>
-            </div>
-
-            <div class="streams-section">
-                <div class="thumbnails-container">
-                    <div class="thumbnail" style="background-image: url('img/avatar5.png')"></div>
-                    <div class="thumbnail" style="background-image: url('img/avatar4.png')"></div>
-                    <div class="thumbnail" style="background-image: url('img/avatar3.png')"></div>
-                    <div class="thumbnail" style="background-image: url('img/avatar2.png')"></div>
-                    <div class="thumbnail" style="background-image: url('img/avatar1.png')"></div>
-                </div>
+    <!-- Nav: scrolls away naturally with system scroll -->
+    <div class="nav-section">
+        <div class="nav-btn" id="user-btn">
+            <img src="img/user.svg" width="24" height="24" alt="User">
+            <div class="notification-dot"></div>
+        </div>
+        <div class="brand-pill">
+            <p>Brand design</p>
+            <div class="arrow-ico">
+                <img src="img/arrow.svg" width="16" height="16" alt="Arrow">
             </div>
         </div>
+        <div class="nav-btn" id="info-btn">
+            <img src="img/info.svg" width="24" height="24" alt="Info">
+        </div>
+    </div>
+
+    <!-- Streams: separate fixed layer, moves up via --streams-padding-top -->
+    <div class="streams-section">
+        <div class="thumbnails-container">
+            <div class="thumbnail" style="background-image: url('img/avatar5.png')"></div>
+            <div class="thumbnail" style="background-image: url('img/avatar4.png')"></div>
+            <div class="thumbnail" style="background-image: url('img/avatar3.png')"></div>
+            <div class="thumbnail" style="background-image: url('img/avatar2.png')"></div>
+            <div class="thumbnail" style="background-image: url('img/avatar1.png')"></div>
+        </div>
+    </div>
+
+    <!-- Layout Overlay: fixed flex container for video + controls only -->
+    <div class="layout-overlay">
 
         <!-- Main Video Area: flex:1, auto-fills the gap -->
         <div class="main-video-area" id="main-video-area">
@@ -375,7 +391,7 @@
 
     </div><!-- /layout-overlay -->
 
-    <script src="mobile-safari.js?v=2026.03.21.1145"></script>
+    <script src="mobile-safari.js?v=2026.03.21.1251"></script>
 </body>
 
 </html>
