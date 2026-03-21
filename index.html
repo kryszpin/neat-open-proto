@@ -280,9 +280,12 @@
             pointer-events: none;
         }
 
-        /* When two videos are shown, each takes max half of container height */
+        /* When two videos are shown: size by height, not width, to maintain 1:1 */
         .main-video-area.dual-video .video-content-square {
-            max-height: calc(50% - 4px);
+            width: auto;
+            height: calc(50% - 4px);
+            max-height: none;
+            max-width: 100%;
         }
 
         /* 1:1 Square Video Content */
