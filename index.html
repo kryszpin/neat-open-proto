@@ -66,8 +66,8 @@
             pointer-events: none;
             /* Sacred 6px bottom gap for Safari transparency */
             margin-bottom: 6px;
-            /* Top padding pushes content below streams */
-            padding-top: calc(var(--streams-padding-top, 52px) + 72px);
+            /* Top padding pushes content below streams (streams-padding-top already includes nav+gap) */
+            padding-top: calc(var(--streams-padding-top, 52px) + 56px);
         }
 
         /* Debug overlays — toggled via user button, no layout impact */
