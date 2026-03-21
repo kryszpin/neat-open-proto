@@ -130,11 +130,15 @@ function updateReactiveUI() {
         const sRect = streamsEl.getBoundingClientRect();
         const vTop = sRect.bottom + 6;
         
-        // Bottom Boundary: Controls Top (if visible) or Safari Edge (-6px gap)
-        let vBottom = h - safe.bottom - 6;
-        if (controlsEl && controlsOpacity > 0.1) {
+        // Bottom Boundary: Lerp between Safari edge and Controls top based on opacity
+        // This prevents the jarring jump when controls are removed from layout
+        const safariBottom = h - safe.bottom - 6;
+        let vBottom = safariBottom;
+        if (controlsEl) {
             const rect = controlsEl.getBoundingClientRect();
-            vBottom = rect.top - 6;
+            const controlsBottom = rect.top - 6;
+            // Smooth interpolation: opacity 1 = controls edge, opacity 0 = safari edge
+            vBottom = safariBottom + (controlsBottom - safariBottom) * controlsOpacity;
         }
 
         vHeight = Math.max(0, vBottom - vTop);
