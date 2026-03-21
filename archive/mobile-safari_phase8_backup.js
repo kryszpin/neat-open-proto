@@ -114,11 +114,43 @@ function updateReactiveUI() {
     document.documentElement.style.setProperty('--streams-padding-top', streamsPadding + 'px');
     document.documentElement.style.setProperty('--controls-opacity', controlsOpacity);
     
-    // Controls visibility is now handled by CSS max-height on .bottom-section
-    // No need for JS visibility toggle or SANDWICH positioning
+    // Handle physical visibility to clear space after fade-out
+    const controlsEl = document.querySelector('.controls-area');
+    if (controlsEl) {
+        controlsEl.style.visibility = (controlsOpacity < 0.01) ? 'hidden' : 'visible';
+        controlsEl.style.pointerEvents = (controlsOpacity < 0.1) ? 'none' : 'auto';
+    }
+
+    // --- SANDWICH VIDEO AREA LOGIC ---
+    let vHeight = 0;
+    const videoEl = document.getElementById('main-video-area');
+    const streamsEl = document.querySelector('.streams-section');
+    if (videoEl && streamsEl) {
+        // Use Actual rendered bottom of streams for top boundary (+6px gap)
+        const sRect = streamsEl.getBoundingClientRect();
+        const vTop = sRect.bottom + 6;
+        
+        // Bottom Boundary: Lerp between Safari edge and Controls top based on opacity
+        // This prevents the jarring jump when controls are removed from layout
+        const safariBottom = h - safe.bottom - 6;
+        let vBottom = safariBottom;
+        if (controlsEl) {
+            const rect = controlsEl.getBoundingClientRect();
+            const controlsBottom = rect.top - 6;
+            // Smooth interpolation: opacity 1 = controls edge, opacity 0 = safari edge
+            vBottom = safariBottom + (controlsBottom - safariBottom) * controlsOpacity;
+        }
+
+        vHeight = Math.max(0, vBottom - vTop);
+        
+        // Instant update for the outer container (Sandwich framing)
+        // Must be 1:1 with scroll to preserve Safari transparency/layout
+        videoEl.style.top = vTop + 'px';
+        videoEl.style.height = vHeight + 'px';
+    }
 
     lastScrollY = scrollY;
-    updateDebugDisplay(mode, totalBars, minBars, w, h, safe, currentGain, navOpacity, streamsPadding, controlsOpacity, direction, 0);
+    updateDebugDisplay(mode, totalBars, minBars, w, h, safe, currentGain, navOpacity, streamsPadding, controlsOpacity, direction, vHeight);
 }
 
 function updateDebugDisplay(mode, totalBars, minBars, w, h, safe, gain, navO, streamsP, controlsO, dir, videoH) {
