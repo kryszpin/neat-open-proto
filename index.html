@@ -271,11 +271,18 @@
         .main-video-area {
             flex: 1;
             min-height: 0;
-            padding: 6px 12px;
+            padding: 12px 12px;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
+            gap: 8px;
             pointer-events: none;
+        }
+
+        /* When two videos are shown, each takes max half of container height */
+        .main-video-area.dual-video .video-content-square {
+            max-height: calc(50% - 4px);
         }
 
         /* 1:1 Square Video Content */
@@ -292,8 +299,9 @@
             align-items: center;
             justify-content: center;
             position: relative;
-            /* Liquid Smoothing: The video settles smoothly while its parent frames instantly */
-            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: auto;
+            cursor: pointer;
+            flex-shrink: 1;
         }
 
         .video-content-square img {

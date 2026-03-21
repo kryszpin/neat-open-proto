@@ -167,6 +167,24 @@ function initButtons() {
             document.body.classList.toggle('debug-borders');
         };
     }
+
+    // Dual Video Test: tap on video to clone/remove second video
+    const videoArea = document.getElementById('main-video-area');
+    const firstVideo = videoArea && videoArea.querySelector('.video-content-square');
+    if (firstVideo) {
+        firstVideo.addEventListener('click', () => {
+            const existing = videoArea.querySelector('.video-content-square.clone');
+            if (existing) {
+                existing.remove();
+                videoArea.classList.remove('dual-video');
+            } else {
+                const clone = firstVideo.cloneNode(true);
+                clone.classList.add('clone');
+                videoArea.appendChild(clone);
+                videoArea.classList.add('dual-video');
+            }
+        });
+    }
 }
 
 if (document.readyState === 'loading') {
