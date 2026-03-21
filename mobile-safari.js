@@ -180,6 +180,11 @@ function initButtons() {
             } else {
                 const clone = firstVideo.cloneNode(true);
                 clone.classList.add('clone');
+                // Change to Simen
+                const img = clone.querySelector('img');
+                if (img) img.src = 'img/simen.jpg';
+                const nameTag = clone.querySelector('.video-name-tag span');
+                if (nameTag) nameTag.textContent = 'Simen';
                 videoArea.appendChild(clone);
                 videoArea.classList.add('dual-video');
             }
