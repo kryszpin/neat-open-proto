@@ -71,13 +71,22 @@ function initLayout() {
     isCalculated = true;
     lastWidth = w;
 
-    // Toggle Debug UI
+    // Toggle Debug UI (info button)
     const infoBtn = document.getElementById('info-btn');
     if (infoBtn) {
         infoBtn.onclick = () => {
             debugVisible = !debugVisible;
             const info = document.getElementById('debug-info');
             if (info) info.style.display = debugVisible ? 'block' : 'none';
+        };
+    }
+
+    // Toggle Debug Borders (user button)
+    const userBtn = document.getElementById('user-btn');
+    if (userBtn) {
+        userBtn.onclick = () => {
+            const overlay = document.querySelector('.layout-overlay');
+            if (overlay) overlay.classList.toggle('debug-borders');
         };
     }
 

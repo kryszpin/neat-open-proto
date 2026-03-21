@@ -65,9 +65,15 @@
             pointer-events: none;
             /* Sacred 6px bottom gap for Safari transparency */
             margin-bottom: 6px;
-            /* DEBUG */
-            border: 2px solid rgba(255, 0, 0, 0.3);
         }
+
+        /* Debug overlays — toggled via user button, no layout impact */
+        .layout-overlay.debug-borders { background: rgba(255, 0, 0, 0.05); }
+        .debug-borders .top-section { background: rgba(0, 255, 255, 0.15); }
+        .debug-borders .nav-section { background: rgba(255, 255, 0, 0.15); }
+        .debug-borders .streams-section { background: rgba(0, 0, 255, 0.2); }
+        .debug-borders .main-video-area { background: rgba(0, 255, 0, 0.1); }
+        .debug-borders .bottom-section { background: rgba(255, 0, 255, 0.2); }
 
         /* Top Section: Nav + Streams */
         .top-section {
@@ -75,8 +81,6 @@
             padding-top: 0;
             overflow: hidden;
             pointer-events: auto;
-            /* DEBUG */
-            border: 1px solid rgba(0, 255, 255, 0.3);
         }
 
         .nav-section {
@@ -90,8 +94,6 @@
             /* Slide up when fading — negative margin pulls it out of view */
             margin-top: calc((var(--nav-opacity, 1) - 1) * 56px);
             pointer-events: auto;
-            /* DEBUG */
-            border: 1px solid rgba(255, 255, 0, 0.3);
         }
 
         .streams-section {
@@ -100,8 +102,6 @@
             width: 100%;
             margin-top: 8px;
             padding: 0 12px;
-            /* DEBUG */
-            border: 1px solid rgba(0, 0, 255, 0.3);
         }
 
         /* Figma Components */
@@ -189,8 +189,6 @@
             max-height: calc(var(--controls-opacity, 1) * 80px);
             overflow: hidden;
             transition: max-height 0.15s ease-out;
-            /* DEBUG */
-            border: 1px solid rgba(255, 0, 255, 0.3);
         }
 
         .controls-area {
@@ -259,8 +257,6 @@
             align-items: center;
             justify-content: center;
             pointer-events: none;
-            /* DEBUG */
-            border: 1px solid rgba(0, 255, 0, 0.2);
         }
 
         /* 1:1 Square Video Content */
@@ -320,7 +316,7 @@
         <!-- Top Section: Nav + Streams -->
         <div class="top-section">
             <div class="nav-section">
-                <div class="nav-btn">
+                <div class="nav-btn" id="user-btn">
                     <img src="img/user.svg" width="24" height="24" alt="User">
                     <div class="notification-dot"></div>
                 </div>
