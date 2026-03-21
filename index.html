@@ -203,10 +203,9 @@
             justify-content: center;
             padding-bottom: 0;
             pointer-events: auto;
-            /* Animate controls height based on opacity */
+            /* Direct 1:1 with scroll — no CSS transition */
             max-height: calc(var(--controls-opacity, 1) * 80px);
             overflow: hidden;
-            transition: max-height 0.15s ease-out;
         }
 
         .controls-area {
@@ -215,7 +214,7 @@
             gap: 8px;
             align-items: center;
             width: max-content;
-            /* Scale down toward bottom while fading */
+            /* Scale down 1:1 in sync with scroll */
             transform: scale(var(--controls-opacity, 1));
             transform-origin: bottom center;
         }
