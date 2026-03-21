@@ -68,7 +68,7 @@
         /* Top Section: Nav + Streams */
         .top-section {
             flex-shrink: 0;
-            padding-top: env(safe-area-inset-top, 12px);
+            padding-top: var(--streams-padding-top, 52px);
             pointer-events: auto;
         }
 
@@ -170,10 +170,11 @@
             flex-shrink: 0;
             display: flex;
             justify-content: center;
-            padding-bottom: calc(6px + env(safe-area-inset-bottom, 6px));
+            /* Always keep 6px at bottom to preserve Safari transparency */
+            padding-bottom: max(6px, calc(6px + env(safe-area-inset-bottom, 0px)));
             pointer-events: auto;
             /* Animate height based on controls opacity */
-            max-height: calc(var(--controls-opacity, 1) * 80px);
+            max-height: calc(6px + var(--controls-opacity, 1) * 80px);
             overflow: hidden;
             transition: max-height 0.15s ease-out;
         }
