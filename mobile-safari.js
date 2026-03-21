@@ -97,7 +97,9 @@ function updateReactiveUI() {
     // 1:1 Scroll Responsiveness (removed damping)
     navOpacity = Math.max(0, 1 - (scrollY / 100));
     streamsPadding = Math.max(STREAMS_MIN_PADDING, 52 - (scrollY / 1.5));
-    controlsOpacity = Math.max(0, 1 - (scrollY / 80));
+    // Controls: binary show/hide at 20px scroll threshold
+    // CSS transition handles the smooth animation
+    controlsOpacity = scrollY < 20 ? 1 : 0;
 
     document.documentElement.style.setProperty('--safari-gain-dynamic', currentGain + 'px');
     document.documentElement.style.setProperty('--nav-opacity', navOpacity);

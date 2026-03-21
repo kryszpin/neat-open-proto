@@ -203,20 +203,19 @@
             justify-content: center;
             padding-bottom: 0;
             pointer-events: auto;
-            /* Direct 1:1 with scroll — no CSS transition */
-            max-height: calc(var(--controls-opacity, 1) * 80px);
             overflow: hidden;
+            /* CSS transition handles show/hide — JS sets binary 0 or 1 */
+            max-height: calc(var(--controls-opacity, 1) * 80px);
+            transition: max-height 0.25s linear;
         }
 
         .controls-area {
             opacity: var(--controls-opacity, 1);
+            transition: opacity 0.25s linear;
             display: flex;
             gap: 8px;
             align-items: center;
             width: max-content;
-            /* Scale down 1:1 in sync with scroll */
-            transform: scale(var(--controls-opacity, 1));
-            transform-origin: bottom center;
         }
 
         .controls-pill {
