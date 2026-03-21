@@ -64,7 +64,7 @@
             z-index: 100;
             pointer-events: none;
             /* Sacred 6px bottom gap for Safari transparency */
-            padding-bottom: 6px;
+            margin-bottom: 6px;
             /* DEBUG */
             border: 2px solid rgba(255, 0, 0, 0.3);
         }
@@ -73,6 +73,7 @@
         .top-section {
             flex-shrink: 0;
             padding-top: 0;
+            overflow: hidden;
             pointer-events: auto;
             /* DEBUG */
             border: 1px solid rgba(0, 255, 255, 0.3);
@@ -86,9 +87,8 @@
             width: 100%;
             padding: 0 12px;
             opacity: var(--nav-opacity, 1);
-            /* Collapse when fading — streams slide up naturally */
-            max-height: calc(var(--nav-opacity, 1) * 56px);
-            overflow: hidden;
+            /* Slide up when fading — negative margin pulls it out of view */
+            margin-top: calc((var(--nav-opacity, 1) - 1) * 56px);
             pointer-events: auto;
             /* DEBUG */
             border: 1px solid rgba(255, 255, 0, 0.3);
@@ -98,7 +98,8 @@
             display: flex;
             justify-content: center;
             width: 100%;
-            padding: 8px 12px 0 12px;
+            margin-top: 8px;
+            padding: 0 12px;
             /* DEBUG */
             border: 1px solid rgba(0, 0, 255, 0.3);
         }
@@ -198,6 +199,9 @@
             gap: 8px;
             align-items: center;
             width: max-content;
+            /* Scale down toward bottom while fading */
+            transform: scale(var(--controls-opacity, 1));
+            transform-origin: bottom center;
         }
 
         .controls-pill {
