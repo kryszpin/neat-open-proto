@@ -30,80 +30,79 @@
             /* Baza */
             background-color: #0b0f19;
             /* Warstwy Mesh Gradientu (kolory z "aurory", pasujące do ciemnego designu) */
-            background-image: 
-                linear-gradient(to bottom, #0b0f19 0%, rgba(11, 15, 25, 0) 15%),
-                linear-gradient(to top, #0b0f19 0%, rgba(11, 15, 25, 0) 15%),
-                radial-gradient(at 0% 0%, rgba(122, 0, 255, 0.5) 0px, transparent 50%),
-                radial-gradient(at 100% 0%, rgba(0, 240, 255, 0.4) 0px, transparent 60%),
-                radial-gradient(at 100% 100%, rgba(255, 0, 122, 0.4) 0px, transparent 50%),
-                radial-gradient(at 0% 100%, rgba(0, 122, 255, 0.6) 0px, transparent 60%),
-                radial-gradient(at 50% 50%, rgba(255, 170, 0, 0.15) 0px, transparent 50%);
+            background-image:
+                linear-gradient(to bottom, #0b0f19 0%, rgba(11, 15, 25, 0) 13%),
+                linear-gradient(to top, #0b0f19 0%, rgba(11, 15, 25, 0) 13%),
+                radial-gradient(at 79% 54%, rgba(225, 125, 252, 0.29103296665768463) 0px, transparent 57%),
+                radial-gradient(at 42% 40%, rgba(94, 92, 211, 0.2754327310960841) 0px, transparent 94%),
+                radial-gradient(at 85% 51%, rgba(243, 129, 74, 0.6548531637262949) 0px, transparent 65%),
+                radial-gradient(at 76% 30%, rgba(170, 61, 203, 0.4731425380877935) 0px, transparent 42%),
+                radial-gradient(at 78% 66%, rgba(253, 162, 134, 0.5770364655975466) 0px, transparent 39%);
             z-index: -1;
-        }
 
-        body {
-            margin: 0;
-            padding: 0;
-            /* margin/padding env(safe-area-inset-*) pozwala contentowi nie wchodzic pod fizyczne wyciecia (notch),
+            body {
+                margin: 0;
+                padding: 0;
+                /* margin/padding env(safe-area-inset-*) pozwala contentowi nie wchodzic pod fizyczne wyciecia (notch),
                ale tło elementu *nadal* tam siega (dzieki viewport-fit=cover) */
-            padding-top: env(safe-area-inset-top);
-            padding-bottom: env(safe-area-inset-bottom);
-            padding-left: env(safe-area-inset-left);
-            padding-right: env(safe-area-inset-right);
+                padding-top: env(safe-area-inset-top);
+                padding-bottom: env(safe-area-inset-bottom);
+                padding-left: env(safe-area-inset-left);
+                padding-right: env(safe-area-inset-right);
 
-            font-family: -apple-system, system-ui, sans-serif;
-            color: white;
-            min-height: 200vh;
-            /* Wymuszamy scroll zeby przetestowac zachowanie paskow Safari podczas przewijania */
-        }
+                font-family: -apple-system, system-ui, sans-serif;
+                color: white;
+                min-height: 200vh;
+                /* Wymuszamy scroll zeby przetestowac zachowanie paskow Safari podczas przewijania */
+            }
 
-        .header {
-            text-align: center;
-            padding: 2rem;
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
+            .header {
+                text-align: center;
+                padding: 2rem;
+                font-size: 1.5rem;
+                font-weight: bold;
+            }
 
-        .box-container {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            padding: 20px;
-        }
+            .box-container {
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+                padding: 20px;
+            }
 
-        .box {
-            height: 200px;
-            border-radius: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            font-weight: 800;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        }
+            .box {
+                height: 200px;
+                border-radius: 24px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 2rem;
+                font-weight: 800;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            }
 
-        .box-1 {
-            background: linear-gradient(135deg, #ff007a, #7a00ff);
-        }
+            .box-1 {
+                background: linear-gradient(135deg, #ff007a, #7a00ff);
+            }
 
-        .box-2 {
-            background: linear-gradient(135deg, #00ff7a, #007aff);
-        }
+            .box-2 {
+                background: linear-gradient(135deg, #00ff7a, #007aff);
+            }
 
-        .box-3 {
-            background: linear-gradient(135deg, #ffaa00, #ff007a);
-        }
+            .box-3 {
+                background: linear-gradient(135deg, #ffaa00, #ff007a);
+            }
 
-        .box-4 {
-            background: linear-gradient(135deg, #00f0ff, #0000ff);
-        }
+            .box-4 {
+                background: linear-gradient(135deg, #00f0ff, #0000ff);
+            }
 
-        .footer {
-            margin-top: 50vh;
-            text-align: center;
-            padding: 2rem;
-            opacity: 0.5;
-        }
+            .footer {
+                margin-top: 50vh;
+                text-align: center;
+                padding: 2rem;
+                opacity: 0.5;
+            }
     </style>
 </head>
 
